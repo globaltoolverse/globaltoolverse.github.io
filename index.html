@@ -1,85 +1,719 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Growth OS - Done For You AI Agents</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0a0f1c; color: #ffffff; line-height: 1.6; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #1e293b; }
-        .logo { font-size: 22px; font-weight: bold; color: #00e5ff; }
-        .btn { background: #00e5ff; color: #0a0f1c; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold; border: none; cursor: pointer; display: inline-block; }
-        .btn:hover { background: #00b8cc; }
-        .hero { text-align: center; padding: 80px 20px; }
-        .hero h1 { font-size: 42px; margin-bottom: 20px; line-height: 1.2; }
-        .hero h1 span { color: #00e5ff; }
-        .hero p { font-size: 18px; color: #94a3b8; margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto; }
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 60px 0; }
-        .feature-card { background: #111827; padding: 30px; border-radius: 10px; border: 1px solid #1e293b; }
-        .feature-card h3 { color: #00e5ff; margin-bottom: 15px; font-size: 20px; }
-        .feature-card p { color: #94a3b8; font-size: 15px; }
-        .pricing { text-align: center; padding: 60px 0; }
-        .pricing h2 { font-size: 36px; margin-bottom: 40px; }
-        .price-box { background: #111827; padding: 40px; border-radius: 15px; border: 2px solid #00e5ff; max-width: 500px; margin: 0 auto; }
-        .price-box h3 { font-size: 24px; margin-bottom: 10px; color: #00e5ff; }
-        .price-box .price { font-size: 48px; font-weight: bold; margin: 20px 0; }
-        .price-box ul { list-style: none; text-align: left; margin-bottom: 30px; color: #94a3b8; }
-        .price-box ul li { margin-bottom: 12px; }
-        .price-box ul li::before { content: "✓ "; color: #00e5ff; font-weight: bold; }
-        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background: #25D366; color: white; padding: 15px 25px; border-radius: 50px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 10px; z-index: 1000; }
-        footer { text-align: center; padding: 40px; border-top: 1px solid #1e293b; color: #64748b; font-size: 14px; margin-top: 60px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA Global — 500+ Free Tools + AI Assistant</title>
+<meta name="description" content="AURA Global — 500+ free AI-powered tools worldwide. Islamic, Finance, Health, Career, Tax (US/UK/India/Pakistan/Gulf), Currency, Travel & More.">
+<meta name="theme-color" content="#080b14">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+:root{--gold:#d4af37;--gold2:#f4d03f;--dark:#080b14;--dark2:#0d1220;--dark3:#161d30;--dark4:#1e2740;--text:#fff;--muted:#8b96b0;--cyan:#00e5ff;--green:#10b981;--red:#ef4444;--purple:#a855f7}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--text);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:var(--dark3);border-radius:10px}::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+.bg-glow{position:fixed;inset:0;background:radial-gradient(circle at 15% 20%,rgba(212,175,55,.12) 0%,transparent 45%),radial-gradient(circle at 85% 75%,rgba(0,229,255,.08) 0%,transparent 45%);z-index:-1;pointer-events:none}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(212,175,55,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(212,175,55,.03) 1px,transparent 1px);background-size:60px 60px;z-index:-1;pointer-events:none;mask-image:radial-gradient(ellipse at center,#000 0%,transparent 75%)}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:100;background:rgba(8,11,20,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(30,39,64,.6);padding:12px 0}
+.header-inner{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.logo{display:flex;flex-direction:column;line-height:1;font-weight:800;flex-shrink:0}
+.logo .aura{font-size:22px;background:linear-gradient(135deg,var(--gold),var(--gold2) 50%,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo .gulf{font-size:9px;letter-spacing:5px;color:var(--muted);font-weight:600;margin-top:2px}
+.nav{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.nav a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;padding:7px 11px;border-radius:8px;transition:.25s;cursor:pointer}
+.nav a:hover{color:var(--gold);background:rgba(212,175,55,.08)}
+.lang-select{background:var(--dark2);border:1px solid var(--dark4);color:var(--text);padding:7px 10px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;outline:none}
+.btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#080b14;padding:11px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:.3s;font-family:inherit}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(212,175,55,.35)}
+.menu-toggle{display:none;background:transparent;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:8px}
+.ticker{background:var(--dark2);border-bottom:1px solid var(--dark3);padding:10px 0;overflow:hidden}
+.ticker-track{display:flex;gap:40px;animation:scroll 40s linear infinite;white-space:nowrap}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);font-weight:600}
+.ticker-item .up{color:var(--green)}.ticker-item .down{color:var(--red)}
+.hero{text-align:center;padding:60px 20px 30px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.3);color:var(--gold);padding:7px 18px;border-radius:30px;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:20px}
+.badge .dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+h1.hero-title{font-size:44px;font-weight:800;line-height:1.1;letter-spacing:-1.5px;margin-bottom:18px}
+.hero-title .gradient{background:linear-gradient(135deg,var(--gold),var(--gold2) 40%,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:16px;color:var(--muted);max-width:680px;margin:0 auto 28px}
+.search-wrap{max-width:620px;margin:0 auto 20px;position:relative}
+.search-box{display:flex;align-items:center;background:rgba(22,29,48,.7);backdrop-filter:blur(10px);border:1px solid var(--dark4);border-radius:60px;padding:6px 6px 6px 22px;transition:.3s}
+.search-box:focus-within{border-color:var(--gold);box-shadow:0 0 0 5px rgba(212,175,55,.1)}
+.search-box svg{color:var(--muted);flex-shrink:0}
+.search-box input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:15px;padding:12px;font-family:inherit}
+.search-box input::placeholder{color:#5a6580}
+.search-box button{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#080b14;padding:11px 22px;border-radius:50px;font-weight:700;cursor:pointer;font-size:14px;font-family:inherit}
+.results{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--dark2);border:1px solid var(--dark4);border-radius:14px;display:none;z-index:50;max-height:400px;overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.results.active{display:block}
+.result{padding:12px 18px;display:flex;gap:14px;align-items:center;cursor:pointer;border-bottom:1px solid var(--dark3)}
+.result:hover{background:var(--dark3)}
+.result .ico{font-size:22px}
+.result h4{font-size:14px}
+.result p{font-size:12px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:30px 0}
+.stat{background:rgba(22,29,48,.5);border:1px solid var(--dark4);border-radius:14px;padding:22px 16px;text-align:center}
+.stat h3{font-size:26px;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat p{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-top:6px;font-weight:600}
+.section{padding:40px 0}
+.section-head{text-align:center;margin-bottom:30px}
+.section-head h2{font-size:28px;font-weight:800;margin-bottom:10px}
+.section-head h2 span{color:var(--gold)}
+.section-head p{color:var(--muted);font-size:14px}
+.cats{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:26px}
+.cat{background:var(--dark2);border:1px solid var(--dark4);color:var(--muted);padding:9px 16px;border-radius:30px;font-size:12.5px;font-weight:600;cursor:pointer;transition:.25s;font-family:inherit;display:flex;align-items:center;gap:6px}
+.cat.active{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#080b14;border-color:transparent}
+.cat:hover:not(.active){border-color:var(--gold);color:var(--gold)}
+.cat .count{background:rgba(255,255,255,.1);padding:1px 7px;border-radius:10px;font-size:10px}
+.cat.active .count{background:rgba(0,0,0,.15)}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.tool{background:linear-gradient(145deg,rgba(22,29,48,.8),rgba(13,18,32,.8));border:1px solid var(--dark4);border-radius:14px;padding:18px;cursor:pointer;transition:.3s;text-decoration:none;color:var(--text);display:block;position:relative;overflow:hidden}
+.tool::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--cyan));transform:scaleX(0);transform-origin:left;transition:.4s}
+.tool:hover::before{transform:scaleX(1)}
+.tool:hover{transform:translateY(-5px);border-color:rgba(212,175,55,.4);box-shadow:0 15px 40px rgba(0,0,0,.5)}
+.tool-icon{font-size:26px;margin-bottom:10px;display:block}
+.tool h3{font-size:15px;margin-bottom:5px;line-height:1.3}
+.tool p{color:var(--muted);font-size:12px;line-height:1.5}
+.tool-tag{display:inline-block;background:rgba(0,229,255,.12);color:var(--cyan);font-size:9px;padding:2px 8px;border-radius:8px;margin-top:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.tool-tag.gold{background:rgba(212,175,55,.15);color:var(--gold)}
+.tool-tag.purple{background:rgba(168,85,247,.15);color:var(--purple)}
+.load-more{display:block;margin:30px auto 0;background:transparent;border:1px solid var(--gold);color:var(--gold);padding:12px 30px;border-radius:30px;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px}
+.calc-sec{display:none;padding:30px 0 60px}
+.calc-sec.active{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.calc-box{background:var(--dark2);border:1px solid var(--dark4);border-radius:20px;padding:32px;max-width:720px;margin:0 auto}
+.calc-box h2{font-size:24px;margin-bottom:6px}
+.calc-box>p{color:var(--muted);font-size:14px;margin-bottom:22px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px;font-weight:600}
+.field input,.field select,.field textarea{width:100%;background:var(--dark);border:1px solid var(--dark4);border-radius:10px;padding:13px 16px;color:var(--text);font-size:15px;outline:none;font-family:inherit}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,175,55,.1)}
+.field textarea{min-height:100px;resize:vertical}
+.result-box{background:linear-gradient(135deg,rgba(212,175,55,.12),rgba(0,229,255,.08));border:1px solid rgba(212,175,55,.3);border-radius:14px;padding:22px;margin-top:20px;text-align:center}
+.result-box .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.result-box .val{font-size:34px;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.result-box .cur{font-size:14px;color:var(--muted);margin-top:4px}
+.back-btn{background:transparent;border:1px solid var(--dark4);color:var(--muted);padding:9px 18px;border-radius:8px;font-size:13px;cursor:pointer;margin-bottom:22px;font-family:inherit}
+.back-btn:hover{border-color:var(--gold);color:var(--gold)}
+.prayer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin-top:18px}
+.prayer-item{background:var(--dark);border:1px solid var(--dark3);border-radius:12px;padding:16px 10px;text-align:center}
+.prayer-item .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600}
+.prayer-item .time{font-size:17px;color:var(--gold);font-weight:800}
+.city-select{background:var(--dark);border:1px solid var(--dark4);color:var(--text);padding:10px 16px;border-radius:10px;font-family:inherit;font-size:14px;margin-bottom:14px;outline:none;width:100%}
+.ad{background:var(--dark2);border:1px dashed var(--dark4);padding:22px;text-align:center;border-radius:14px;color:#3d4762;font-size:12px;margin:20px 0}
+footer{border-top:1px solid var(--dark3);padding:40px 20px 25px;margin-top:40px;text-align:center;color:var(--muted);font-size:13px}
+.ai-fab{position:fixed;bottom:24px;right:24px;width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;cursor:pointer;font-size:26px;box-shadow:0 12px 40px rgba(212,175,55,.5);z-index:9997;animation:float 3s ease-in-out infinite;color:#080b14}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.ai-fab:hover{transform:scale(1.1)}
+.ai-fab .ping{position:absolute;top:4px;right:4px;width:16px;height:16px;background:#ef4444;border-radius:50%;border:3px solid var(--dark)}
+.ai-panel{position:fixed;inset:0;z-index:9999;background:var(--dark2);display:none;flex-direction:column;transform:translateY(100%);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.ai-panel.active{display:flex;transform:translateY(0)}
+@media(min-width:768px){.ai-panel{top:auto;bottom:0;left:auto;right:20px;width:440px;height:calc(100vh - 40px);max-height:780px;border-radius:24px 24px 0 0;inset:auto;transform:translateY(100%)}.ai-panel.active{transform:translateY(0)}}
+.ai-head{background:linear-gradient(135deg,#d4af37,#f4d03f);color:#080b14;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px}
+.ai-head button{background:rgba(8,11,20,.18);border:none;color:#080b14;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:15px;font-weight:700}
+.ai-modes{display:flex;gap:6px;padding:12px 16px;border-bottom:1px solid var(--dark3);overflow-x:auto;background:rgba(0,0,0,.15)}
+.ai-modes::-webkit-scrollbar{display:none}
+.ai-mode{background:var(--dark3);border:1px solid transparent;color:var(--muted);padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit}
+.ai-mode.active{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#080b14}
+.ai-body{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+.ai-msg{display:flex;gap:10px;align-items:flex-start}
+.ai-msg.user{flex-direction:row-reverse}
+.ai-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ai-msg.user .ai-av{background:linear-gradient(135deg,var(--cyan),#0891b2)}
+.ai-bubble{background:var(--dark3);padding:12px 16px;border-radius:16px 16px 16px 4px;font-size:13.5px;color:var(--text);line-height:1.65;max-width:85%;word-wrap:break-word}
+.ai-msg.user .ai-bubble{background:rgba(212,175,55,.15);border-radius:16px 16px 4px 16px;border:1px solid rgba(212,175,55,.25)}
+.ai-bubble strong{color:var(--gold)}
+.ai-bubble a{color:var(--cyan);text-decoration:none;cursor:pointer}
+.ai-bubble ul{padding-left:20px;margin:8px 0}
+.ai-bubble li{margin-bottom:5px}
+.ai-typing{display:flex;gap:4px;padding:14px 18px;background:var(--dark3);border-radius:16px 16px 16px 4px;width:fit-content}
+.ai-typing span{width:8px;height:8px;background:var(--muted);border-radius:50%;animation:typ 1.4s infinite}
+.ai-typing span:nth-child(2){animation-delay:.2s}
+.ai-typing span:nth-child(3){animation-delay:.4s}
+@keyframes typ{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-7px);opacity:1;background:var(--gold)}}
+.ai-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;padding-left:44px}
+.ai-chip{background:transparent;border:1px solid var(--dark4);color:var(--muted);padding:7px 14px;border-radius:18px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.ai-chip:hover{border-color:var(--gold);color:var(--gold)}
+.ai-input-wrap{padding:14px 16px;border-top:1px solid var(--dark3);display:flex;gap:10px;background:var(--dark2)}
+.ai-input{flex:1;background:var(--dark);border:1px solid var(--dark4);border-radius:22px;padding:12px 18px;color:var(--text);font-size:14px;outline:none;font-family:inherit;resize:none;max-height:100px;min-height:44px;line-height:1.4}
+.ai-input:focus{border-color:var(--gold)}
+.ai-send{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#080b14;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:16px;font-weight:700;flex-shrink:0}
+@media(max-width:768px){
+.nav{display:none}.menu-toggle{display:block}
+h1.hero-title{font-size:28px;letter-spacing:-1px}
+.hero{padding:32px 16px 22px}
+.hero-sub{font-size:14px}
+.stats{grid-template-columns:repeat(2,1fr);gap:10px}
+.section{padding:30px 0}
+.section-head h2{font-size:20px}
+.tools{grid-template-columns:repeat(2,1fr);gap:10px}
+.tool{padding:14px}
+.tool h3{font-size:13px}
+.tool p{font-size:11px}
+.calc-box{padding:22px 16px}
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">AI Growth OS</div>
-            <a href="#pricing" class="btn" style="padding: 10px 20px; font-size: 14px;">Get Started</a>
-        </header>
-        <section class="hero">
-            <h1>Stop Losing Leads. Let <span>AI Agents</span> Close Them 24/7.</h1>
-            <p>We build, deploy, and manage high-converting bilingual AI receptionists for Real Estate and Clinics in the Gulf. Book appointments while you sleep.</p>
-            <a href="#pricing" class="btn" style="padding: 15px 30px; font-size: 18px;">View Pricing</a>
-        </section>
-        <section class="features">
-            <div class="feature-card">
-                <h3>🗣️ Bilingual (AR/EN)</h3>
-                <p>Your AI receptionist understands Arabic and English. It switches languages automatically, just like a human.</p>
-            </div>
-            <div class="feature-card">
-                <h3>📅 Auto-Booking</h3>
-                <p>Clients don't just chat; they book. The AI syncs with your Calendly/Google Calendar and locks the appointment instantly.</p>
-            </div>
-            <div class="feature-card">
-                <h3>⚡ Zero Effort</h3>
-                <p>We set everything up in 48 hours. You just watch the appointments roll in. No tech skills needed.</p>
-            </div>
-        </section>
-        <section class="pricing" id="pricing">
-            <h2>Premium Setup, High ROI</h2>
-            <div class="price-box">
-                <h3>Done-For-You AI Agent</h3>
-                <div class="price">$2,500 <span style="font-size: 16px; color: #94a3b8;">setup</span></div>
-                <p style="color: #00e5ff; margin-bottom: 20px; font-weight: bold;">+ $700/month maintenance</p>
-                <ul>
-                    <li>Custom Arabic/English AI Training</li>
-                    <li>WhatsApp Business API Integration</li>
-                    <li>Calendar & CRM Sync</li>
-                    <li>Monthly Lead & ROI Dashboard</li>
-                    <li>Priority Support & Updates</li>
-                </ul>
-                <!-- YAHAN AAPKA WHATSAPP NUMBER HAI -->
-                <a href="https://wa.me/966549907562" class="btn" style="display: block; text-align: center;">Book Your Setup Call</a>
-            </div>
-        </section>
-        <footer>
-            <p>&copy; 2026 AI Growth OS. All rights reserved.</p>
-            <p>Contact: shaniyoshani.khanhshani@gmail.com | Dubai | Riyadh | Doha</p>
-        </footer>
-    </div>
-    <!-- YAHAN BHI AAPKA WHATSAPP NUMBER HAI -->
-    <a href="https://wa.me/966549907562" class="whatsapp-float">💬 Chat with us</a>
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+
+<header>
+<div class="container header-inner">
+<div class="logo"><span class="aura">AURA</span><span class="gulf">GLOBAL</span></div>
+<nav class="nav">
+<a onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">500+ Tools</a>
+<a onclick="openAIAgent()">✨ AI Assistant</a>
+</nav>
+<select class="lang-select" onchange="changeLang(this.value)">
+<option value="en">🇬🇧 EN</option>
+<option value="ar">🇸🇦 عربي</option>
+<option value="ur">🇵🇰 اردو</option>
+<option value="hi">🇮🇳 हिन्दी</option>
+<option value="id">🇮🇩 ID</option>
+</select>
+<button class="menu-toggle" onclick="document.querySelector('.nav').style.display='flex'">☰</button>
+</div>
+</header>
+
+<div class="ticker"><div class="ticker-track" id="ticker"></div></div>
+
+<div class="container">
+
+<section class="hero">
+<div class="badge"><span class="dot"></span> LIVE • 500+ Tools • Global • 100% Free</div>
+<h1 class="hero-title" data-i="hero1">The World's Free</h1>
+<h1 class="hero-title"><span class="gradient" data-i="hero2">Tool Super App</span></h1>
+<p class="hero-sub" data-i="hero_sub">500+ premium tools for everyone — Islamic, Finance, Health, Career, Tax (US/UK/India/Pakistan/Gulf), Currency, Travel & More.</p>
+<div class="search-wrap">
+<div class="search-box">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+<input type="text" id="searchInput" placeholder="Search 500+ tools..." autocomplete="off">
+<button onclick="doSearch()">Search</button>
+</div>
+<div class="results" id="results"></div>
+</div>
+</section>
+
+<div class="stats">
+<div class="stat"><h3 id="s1">0</h3><p>Users</p></div>
+<div class="stat"><h3 id="s2">0</h3><p>Tools</p></div>
+<div class="stat"><h3 id="s3">0</h3><p>Categories</p></div>
+<div class="stat"><h3>100%</h3><p>Free</p></div>
+</div>
+
+<section class="section" id="tools">
+<div class="section-head"><h2>Explore <span>500+ Tools</span></h2><p>Choose a category or search above</p></div>
+<div class="cats" id="cats"></div>
+<div class="tools" id="toolsGrid"></div>
+<button class="load-more" id="loadMore" onclick="loadMore()">Load More Tools</button>
+</section>
+
+<section class="calc-sec" id="calcSec">
+<button class="back-btn" onclick="closeCalc()">← Back to Tools</button>
+<div class="calc-box" id="calcBox"></div>
+</section>
+
+<div class="ad">Advertisement — Google AdSense</div>
+
+</div>
+
+<footer>
+<p>© 2026 AURA Global. All rights reserved.</p>
+<p style="margin-top:6px;color:#4a5573;font-size:12px">500+ Tools • Worldwide • Free Forever</p>
+</footer>
+
+<button class="ai-fab" onclick="openAIAgent()">✨<span class="ping"></span></button>
+
+<div class="ai-panel" id="aiPanel">
+<div class="ai-head"><span>✨ Aura AI</span><button onclick="closeAIAgent()">✕</button></div>
+<div class="ai-modes">
+<button class="ai-mode active" data-m="general" onclick="setAIMode('general')">💬 General</button>
+<button class="ai-mode" data-m="islamic" onclick="setAIMode('islamic')">🕌 Islamic</button>
+<button class="ai-mode" data-m="finance" onclick="setAIMode('finance')">💰 Finance</button>
+<button class="ai-mode" data-m="health" onclick="setAIMode('health')">❤️ Health</button>
+<button class="ai-mode" data-m="career" onclick="setAIMode('career')">💼 Career</button>
+<button class="ai-mode" data-m="study" onclick="setAIMode('study')">📚 Study</button>
+<button class="ai-mode" data-m="travel" onclick="setAIMode('travel')">✈️ Travel</button>
+<button class="ai-mode" data-m="tech" onclick="setAIMode('tech')">💻 Tech</button>
+</div>
+<div class="ai-body" id="aiBody">
+<div class="ai-msg"><div class="ai-av">✨</div><div class="ai-bubble"><strong>Assalam-o-Alaikum! 🌍</strong><br>I'm <strong>Aura AI</strong> — your all-in-one assistant.<br><br>Ask me about: 💰 Zakat & Tax • ❤️ Health • 🕌 Prayer • 💼 Career • 📚 Study • ✈️ Travel • 💻 Tech<br><br>Just type below or pick a quick option! 👇</div></div>
+<div class="ai-chips" id="aiChips">
+<button class="ai-chip" onclick="quickAsk('Zakat kaise calculate karein?')">🕌 Zakat</button>
+<button class="ai-chip" onclick="quickAsk('US tax calculator')">🇺🇸 US Tax</button>
+<button class="ai-chip" onclick="quickAsk('How to build a resume?')">📝 Resume</button>
+<button class="ai-chip" onclick="quickAsk('BMI calculator kya hai?')">❤️ BMI</button>
+<button class="ai-chip" onclick="quickAsk('Prayer times for Dubai')">🕐 Prayer</button>
+</div>
+</div>
+<div class="ai-input-wrap">
+<textarea class="ai-input" id="aiInput" placeholder="Ask anything... (English, عربي, اردو, हिन्दी)" rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAIMessage()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+<button class="ai-send" onclick="sendAIMessage()">➤</button>
+</div>
+</div>
+
+<script>
+// ============ TOOLS DATABASE ============
+const TOOLS=[
+{t:'Zakat Calculator',d:'Calculate Zakat on wealth',i:'🕌',c:'islamic',tag:'POPULAR'},
+{t:'Faraid Inheritance',d:'Islamic inheritance shares',i:'👨‍👩‍👧',c:'islamic'},
+{t:'Prayer Times',d:'5 daily prayers worldwide',i:'🕐',c:'islamic',tag:'LIVE'},
+{t:'Hijri Converter',d:'Gregorian ↔ Hijri',i:'📅',c:'islamic'},
+{t:'Qibla Direction',d:'Find Qibla worldwide',i:'🧭',c:'islamic'},
+{t:'Tasbih Counter',d:'Digital dhikr counter',i:'📿',c:'islamic'},
+{t:'Nisab Calculator',d:'Gold/Silver Nisab',i:'⚖️',c:'islamic'},
+{t:'Fitra Calculator',d:'Zakat al-Fitr',i:'🍚',c:'islamic'},
+{t:'Qurbani Calculator',d:'Qurbani shares',i:'🐑',c:'islamic'},
+{t:'Sadaqah Calculator',d:'Plan your charity',i:'💝',c:'islamic'},
+{t:'Hajj/Umrah Cost',d:'Pilgrimage budget',i:'🕋',c:'islamic'},
+{t:'99 Names of Allah',d:'Asma ul Husna',i:'✨',c:'islamic'},
+{t:'Arabic Baby Names',d:'Names with meanings',i:'👶',c:'islamic'},
+{t:'Daily Duas',d:'Islamic supplications',i:'🤲',c:'islamic'},
+{t:'Ramadan Calendar',d:'Suhoor & Iftar times',i:'🌙',c:'islamic'},
+{t:'Islamic Quiz',d:'Test your knowledge',i:'🧠',c:'islamic'},
+{t:'Daily Hadith',d:'Random hadith',i:'📖',c:'islamic'},
+{t:'Zakat on Gold',d:'Gold Zakat',i:'🥇',c:'islamic'},
+{t:'Zakat on Business',d:'Business Zakat',i:'🏪',c:'islamic'},
+{t:'Zakat on Property',d:'Property Zakat',i:'🏠',c:'islamic'},
+{t:'Gold Price Live',d:'Real-time gold rates',i:'💰',c:'finance',tag:'LIVE'},
+{t:'EOS Gratuity',d:'End of Service Gulf',i:'💼',c:'finance'},
+{t:'Currency Converter',d:'30+ world currencies',i:'💱',c:'finance',tag:'LIVE'},
+{t:'VAT Calculator',d:'Saudi 15%, UAE 5%',i:'📊',c:'finance'},
+{t:'GST Calculator',d:'India, Australia GST',i:'📊',c:'finance'},
+{t:'Loan EMI',d:'Monthly EMI & interest',i:'🏦',c:'finance'},
+{t:'Mortgage Calculator',d:'Home loan payment',i:'🏠',c:'finance'},
+{t:'Car Loan EMI',d:'Auto financing EMI',i:'🚗',c:'finance'},
+{t:'Compound Interest',d:'Growth over time',i:'📈',c:'finance'},
+{t:'Simple Interest',d:'Simple interest calc',i:'💹',c:'finance'},
+{t:'Savings Goal',d:'How much to save monthly',i:'🎯',c:'finance'},
+{t:'Retirement Planner',d:'Plan your retirement',i:'🧓',c:'finance'},
+{t:'Net Worth',d:'Assets minus liabilities',i:'💎',c:'finance'},
+{t:'Salary Breakdown',d:'Deductions & net pay',i:'📋',c:'finance'},
+{t:'ROI Calculator',d:'Return on investment',i:'💹',c:'finance'},
+{t:'Rental Yield',d:'Property yield',i:'🏘️',c:'finance'},
+{t:'Debt Payoff',d:'Plan to clear debts',i:'📉',c:'finance'},
+{t:'Credit Card Interest',d:'Calculate interest',i:'💳',c:'finance'},
+{t:'Tips Split',d:'Split bill with tip',i:'🍽️',c:'finance'},
+{t:'Discount Calculator',d:'Sale price & savings',i:'🏷️',c:'finance'},
+{t:'Profit Margin',d:'Business profit %',i:'📊',c:'finance'},
+{t:'Break-Even Point',d:'When business profits',i:'⚖️',c:'finance'},
+{t:'Budget Planner',d:'50/30/20 rule',i:'📅',c:'finance'},
+{t:'Emergency Fund',d:'How much to save',i:'🛟',c:'finance'},
+{t:'Crypto Profit',d:'Crypto gain/loss',i:'🪙',c:'finance'},
+{t:'Stock Profit',d:'Stock P/L',i:'📈',c:'finance'},
+{t:'SIP Calculator',d:'SIP returns',i:'📈',c:'finance'},
+{t:'FD Calculator',d:'Fixed deposit returns',i:'🏦',c:'finance'},
+{t:'PPF Calculator',d:'Public provident fund',i:'💰',c:'finance'},
+{t:'Lumpsum Calculator',d:'One-time investment',i:'💎',c:'finance'},
+{t:'US Tax Calculator',d:'US federal income tax',i:'🇺🇸',c:'finance',tag:'US'},
+{t:'UK Tax Calculator',d:'UK income tax & NI',i:'🇬🇧',c:'finance',tag:'UK'},
+{t:'India Income Tax',d:'Income tax India',i:'🇮🇳',c:'finance',tag:'INDIA'},
+{t:'India GST',d:'Goods & Services Tax',i:'🇮🇳',c:'finance'},
+{t:'Pakistan Income Tax',d:'Income tax Pakistan',i:'🇵🇰',c:'finance',tag:'PK'},
+{t:'Canada Tax',d:'Canadian income tax',i:'🇨🇦',c:'finance'},
+{t:'Australia Tax',d:'Australian income tax',i:'🇦🇺',c:'finance'},
+{t:'Germany Tax',d:'German income tax',i:'🇩🇪',c:'finance'},
+{t:'Japan Tax',d:'Japanese income tax',i:'🇯🇵',c:'finance'},
+{t:'Singapore Tax',d:'Singapore income tax',i:'🇸🇬',c:'finance'},
+{t:'Malaysia Tax',d:'Malaysian income tax',i:'🇲🇾',c:'finance'},
+{t:'Indonesia Tax',d:'Indonesian PPh 21',i:'🇮🇩',c:'finance'},
+{t:'Turkey Tax',d:'Turkish income tax',i:'🇹🇷',c:'finance'},
+{t:'Brazil Tax',d:'Brazilian IRPF',i:'🇧🇷',c:'finance'},
+{t:'Nigeria Tax',d:'Nigerian PAYE',i:'🇳🇬',c:'finance'},
+{t:'Egypt Tax',d:'Egyptian income tax',i:'🇪🇬',c:'finance'},
+{t:'BMI Calculator',d:'Body Mass Index',i:'❤️',c:'health',tag:'POPULAR'},
+{t:'BMR Calculator',d:'Basal metabolic rate',i:'🔥',c:'health'},
+{t:'Calorie Needs',d:'Daily calorie target',i:'🍎',c:'health'},
+{t:'Water Intake',d:'Daily water requirement',i:'💧',c:'health'},
+{t:'Body Fat %',d:'Body fat percentage',i:'💪',c:'health'},
+{t:'Ideal Weight',d:'Healthy weight range',i:'⚖️',c:'health'},
+{t:'Pregnancy Due Date',d:'Calculate due date',i:'🤰',c:'health'},
+{t:'Ovulation Calculator',d:'Fertility window',i:'🌸',c:'health'},
+{t:'BP Check',d:'Blood pressure category',i:'🩺',c:'health'},
+{t:'Diabetes Risk',d:'Type 2 risk score',i:'🩸',c:'health'},
+{t:'Heart Rate Zones',d:'Target heart rate',i:'💓',c:'health'},
+{t:'Sleep Calculator',d:'Best sleep times',i:'😴',c:'health'},
+{t:'Protein Intake',d:'Daily protein needs',i:'🥩',c:'health'},
+{t:'Macro Calculator',d:'Carbs/protein/fat',i:'🥗',c:'health'},
+{t:'Step Goal',d:'Daily step target',i:'👟',c:'health'},
+{t:'Calories Burned',d:'Exercise calories',i:'🏃',c:'health'},
+{t:'Child BMI',d:'BMI for children',i:'🧒',c:'health'},
+{t:'Waist-Hip Ratio',d:'Health risk indicator',i:'📏',c:'health'},
+{t:'Carb Calculator',d:'Daily carb needs',i:'🍞',c:'health'},
+{t:'Fat Intake',d:'Daily fat needs',i:'🥑',c:'health'},
+{t:'Fiber Intake',d:'Daily fiber needs',i:'🥦',c:'health'},
+{t:'Vitamin D',d:'Vitamin D dosage',i:'☀️',c:'health'},
+{t:'Iron Intake',d:'Daily iron needs',i:'🥬',c:'health'},
+{t:'Calcium Intake',d:'Daily calcium needs',i:'🥛',c:'health'},
+{t:'Blood Sugar',d:'Glucose level check',i:'🍬',c:'health'},
+{t:'Cholesterol Check',d:'Cholesterol levels',i:'🩸',c:'health'},
+{t:'Thyroid Check',d:'Thyroid health',i:'🦋',c:'health'},
+{t:'Depression Test',d:'PHQ-9 assessment',i:'😔',c:'health'},
+{t:'Anxiety Test',d:'GAD-7 assessment',i:'😰',c:'health'},
+{t:'Stress Level',d:'Stress assessment',i:'😥',c:'health'},
+{t:'Sleep Quality',d:'Sleep quality score',i:'😴',c:'health'},
+{t:'Pregnancy Weight',d:'Ideal pregnancy weight',i:'🤰',c:'health'},
+{t:'Baby Growth',d:'Baby growth percentile',i:'👶',c:'health'},
+{t:'Child Height',d:'Expected child height',i:'🧒',c:'health'},
+{t:'Vaccination',d:'Child vaccine timeline',i:'💉',c:'health'},
+{t:'Kidney Function',d:'eGFR calculation',i:'🫘',c:'health'},
+{t:'Liver Function',d:'Liver health score',i:'🫀',c:'health'},
+{t:'Lung Capacity',d:'Lung function',i:'🫁',c:'health'},
+{t:'Vision Test',d:'Eye vision test',i:'👁️',c:'health'},
+{t:'Hearing Test',d:'Hearing ability check',i:'👂',c:'health'},
+{t:'Dental Health',d:'Dental care tips',i:'🦷',c:'health'},
+{t:'Hair Loss',d:'Hair loss assessment',i:'💇',c:'health'},
+{t:'Skin Type',d:'Identify skin type',i:'✨',c:'health'},
+{t:'Cycle Tracker',d:'Menstrual cycle tracker',i:'🌸',c:'health'},
+{t:'AI Resume Builder',d:'Professional CV',i:'📝',c:'career',tag:'AI'},
+{t:'Cover Letter',d:'AI cover letter',i:'✉️',c:'career',tag:'AI'},
+{t:'Interview Prep',d:'Common Q&A',i:'🎤',c:'career'},
+{t:'Salary Negotiation',d:'Tips to negotiate',i:'💬',c:'career'},
+{t:'Annual Leave',d:'Calculate leave days',i:'🏖️',c:'career'},
+{t:'Working Days',d:'Days between dates',i:'📅',c:'career'},
+{t:'Overtime Pay',d:'OT rate calculator',i:'⏰',c:'career'},
+{t:'Hourly to Salary',d:'Convert hourly',i:'💵',c:'career'},
+{t:'Freelance Rate',d:'Set your rate',i:'💻',c:'career'},
+{t:'Notice Period',d:'Last working day',i:'📆',c:'career'},
+{t:'Service Years',d:'Total years worked',i:'📊',c:'career'},
+{t:'Public Holidays',d:'Global holiday calendar',i:'🎉',c:'career'},
+{t:'Payslip Generator',d:'Generate salary slip',i:'🧾',c:'career'},
+{t:'Career Path',d:'Plan your career',i:'🛤️',c:'career'},
+{t:'LinkedIn Headline',d:'AI LinkedIn headlines',i:'💼',c:'career',tag:'AI'},
+{t:'Job Description',d:'Generate JD',i:'📋',c:'career'},
+{t:'Resignation Letter',d:'Professional resignation',i:'📄',c:'career'},
+{t:'Recommendation',d:'Generate recommendation',i:'📜',c:'career'},
+{t:'Appreciation Letter',d:'Employee appreciation',i:'🏆',c:'career'},
+{t:'Warning Letter',d:'HR warning template',i:'⚠️',c:'career'},
+{t:'Offer Letter',d:'Generate offer letter',i:'📩',c:'career'},
+{t:'Experience Letter',d:'Employment certificate',i:'📜',c:'career'},
+{t:'Appraisal Letter',d:'Salary increment',i:'📈',c:'career'},
+{t:'Promotion Letter',d:'Promotion announcement',i:'🎉',c:'career'},
+{t:'Transfer Letter',d:'Employee transfer',i:'🔄',c:'career'},
+{t:'Skills Assessment',d:'Rate your skills',i:'🎯',c:'career'},
+{t:'Study Abroad',d:'Plan studies abroad',i:'🎓',c:'career'},
+{t:'GPA Calculator',d:'Grade point average',i:'🎓',c:'education'},
+{t:'CGPA Calculator',d:'Cumulative GPA',i:'📚',c:'education'},
+{t:'Grade Calculator',d:'Final grade needed',i:'📝',c:'education'},
+{t:'Percentage Calculator',d:'All % calculations',i:'%',c:'education',tag:'POPULAR'},
+{t:'Pomodoro Timer',d:'25-min focus timer',i:'⏲️',c:'education'},
+{t:'Reading Speed',d:'Words per minute',i:'📖',c:'education'},
+{t:'Typing Speed',d:'WPM typing test',i:'⌨️',c:'education'},
+{t:'Math Solver',d:'Solve basic math',i:'🔢',c:'education'},
+{t:'Physics Calculator',d:'Physics formulas',i:'⚛️',c:'education'},
+{t:'Chemistry Calculator',d:'Molar mass etc',i:'🧪',c:'education'},
+{t:'Statistics',d:'Mean, median, mode',i:'📊',c:'education'},
+{t:'Geometry',d:'Area, volume',i:'📐',c:'education'},
+{t:'Trigonometry',d:'Sin, cos, tan',i:'📐',c:'education'},
+{t:'Quadratic Solver',d:'ax² + bx + c = 0',i:'📐',c:'education'},
+{t:'Word Counter',d:'Words, chars count',i:'📄',c:'education'},
+{t:'Character Counter',d:'Character count',i:'🔤',c:'education'},
+{t:'Case Converter',d:'UPPER, lower, Title',i:'🔠',c:'education'},
+{t:'Text Reverser',d:'Reverse any text',i:'🔄',c:'education'},
+{t:'Palindrome Check',d:'Is it palindrome?',i:'🔄',c:'education'},
+{t:'Anagram Check',d:'Are they anagrams?',i:'🔤',c:'education'},
+{t:'Random Word',d:'Random English words',i:'📚',c:'education'},
+{t:'Spell Checker',d:'Basic spelling hints',i:'✏️',c:'education'},
+{t:'Citation Generator',d:'APA, MLA citations',i:'📚',c:'education'},
+{t:'Binary Converter',d:'Binary ↔ Decimal',i:'💻',c:'education'},
+{t:'Hex Converter',d:'Hex ↔ Decimal',i:'🔢',c:'education'},
+{t:'Roman Numeral',d:'Number ↔ Roman',i:'🏛️',c:'education'},
+{t:'Number to Words',d:'Number to words',i:'🔢',c:'education'},
+{t:'Unit Converter',d:'Length, weight, area',i:'📏',c:'education'},
+{t:'Gulf Weather',d:'Live weather Gulf',i:'🌤️',c:'travel',tag:'LIVE'},
+{t:'World Weather',d:'Live weather worldwide',i:'🌍',c:'travel',tag:'LIVE'},
+{t:'Visa Fee',d:'Gulf visa costs',i:'🛂',c:'travel'},
+{t:'Flight Cost',d:'Estimate flight cost',i:'✈️',c:'travel'},
+{t:'Fuel Cost',d:'Trip fuel cost',i:'⛽',c:'travel'},
+{t:'Distance Calc',d:'Between cities',i:'📍',c:'travel'},
+{t:'Toll Calculator',d:'Toll costs',i:'🛣️',c:'travel'},
+{t:'Hotel Cost',d:'Hotel budget',i:'🏨',c:'travel'},
+{t:'Time Zone',d:'Convert time zones',i:'🌍',c:'travel'},
+{t:'Packing List',d:'Packing checklist',i:'🧳',c:'travel'},
+{t:'Travel Money',d:'Travel budget planner',i:'💴',c:'travel'},
+{t:'Trip Duration',d:'Days between dates',i:'📅',c:'travel'},
+{t:'Visa Eligibility',d:'Check eligibility',i:'✅',c:'travel'},
+{t:'Airport Tips',d:'Airport hacks',i:'🛫',c:'travel'},
+{t:'Jet Lag Tips',d:'Beat jet lag',i:'😴',c:'travel'},
+{t:'Travel Insurance',d:'Insurance cost',i:'🛡️',c:'travel'},
+{t:'Baggage Rules',d:'Airline baggage rules',i:'🧳',c:'travel'},
+{t:'Flight Duration',d:'Flight time',i:'✈️',c:'travel'},
+{t:'Travel Health',d:'Vaccines needed',i:'💉',c:'travel'},
+{t:'Emergency Numbers',d:'Global emergency',i:'🚨',c:'travel'},
+{t:'Language Phrases',d:'Basic phrases',i:'🗣️',c:'travel'},
+{t:'Sunrise Sunset',d:'Sunrise/sunset',i:'🌅',c:'travel'},
+{t:'Moon Phase',d:'Current moon phase',i:'🌙',c:'travel'},
+{t:'Flight Tracker',d:'Track any flight',i:'✈️',c:'travel'},
+{t:'Airport Codes',d:'IATA codes',i:'🛬',c:'travel'},
+{t:'World Clock',d:'Multiple time zones',i:'🕐',c:'travel'},
+{t:'Age Calculator',d:'Exact age in years',i:'🎂',c:'utility',tag:'POPULAR'},
+{t:'Date Difference',d:'Days between dates',i:'📅',c:'utility'},
+{t:'Temperature',d:'C, F, K conversion',i:'🌡️',c:'utility'},
+{t:'Random Number',d:'Generate random numbers',i:'🎲',c:'utility'},
+{t:'Password Generator',d:'Strong passwords',i:'🔐',c:'utility'},
+{t:'QR Generator',d:'Create QR codes',i:'📱',c:'utility'},
+{t:'Base64 Encoder',d:'Encode/decode Base64',i:'🔣',c:'utility'},
+{t:'URL Encoder',d:'Encode/decode URLs',i:'🔗',c:'utility'},
+{t:'UUID Generator',d:'Generate unique IDs',i:'🆔',c:'utility'},
+{t:'Time Calculator',d:'Add/subtract time',i:'⏱️',c:'utility'},
+{t:'Color Picker',d:'HEX, RGB, HSL',i:'🎨',c:'utility'},
+{t:'Tip Calculator',d:'Restaurant tip',i:'🍽️',c:'utility'},
+{t:'Dice Roller',d:'Roll virtual dice',i:'🎲',c:'utility'},
+{t:'Coin Flip',d:'Heads or tails',i:'🪙',c:'utility'},
+{t:'Stopwatch',d:'Simple stopwatch',i:'⏱️',c:'utility'},
+{t:'Barcode Generator',d:'Create barcodes',i:'📊',c:'utility'},
+{t:'Aspect Ratio',d:'Calculate aspect ratio',i:'📐',c:'utility'},
+{t:'Data Size',d:'Bytes conversion',i:'💾',c:'utility'},
+{t:'Bandwidth',d:'Download time',i:'🌐',c:'utility'},
+{t:'WiFi Password',d:'Strong WiFi password',i:'📶',c:'utility'},
+{t:'PIN Generator',d:'Random PIN code',i:'🔢',c:'utility'},
+{t:'OTP Generator',d:'6-digit OTP',i:'🔐',c:'utility'},
+{t:'Lucky Number',d:'Your lucky number',i:'🍀',c:'utility'},
+{t:'Zodiac Sign',d:'Find your zodiac',i:'♈',c:'utility'},
+{t:'Chinese Zodiac',d:'Chinese animal sign',i:'🐉',c:'utility'},
+{t:'Life Path Number',d:'Numerology',i:'🔮',c:'utility'},
+{t:'Blood Type',d:'Blood type info',i:'🩸',c:'utility'},
+{t:'Star Sign Match',d:'Zodiac compatibility',i:'💫',c:'utility'},
+{t:'Tarot Card',d:'Random tarot card',i:'🃏',c:'utility'},
+{t:'Speed Calculator',d:'Speed conversions',i:'🏎️',c:'utility'},
+{t:'Area Calculator',d:'Area conversions',i:'📐',c:'utility'},
+{t:'Volume Calculator',d:'Volume conversions',i:'🧪',c:'utility'},
+{t:'Weight Converter',d:'Weight units',i:'⚖️',c:'utility'},
+{t:'Length Converter',d:'Length units',i:'📏',c:'utility'},
+{t:'Pressure Converter',d:'Pressure units',i:'💨',c:'utility'},
+{t:'Energy Converter',d:'Energy units',i:'⚡',c:'utility'},
+{t:'Power Converter',d:'Power units',i:'⚡',c:'utility'},
+{t:'Prime Checker',d:'Is number prime?',i:'🔢',c:'utility'},
+{t:'Factorial',d:'Calculate factorial',i:'🔢',c:'utility'},
+{t:'Fibonacci',d:'Fibonacci sequence',i:'🔢',c:'utility'},
+{t:'GCD/LCM',d:'Greatest common divisor',i:'🔢',c:'utility'},
+{t:'Daily Affirmation',d:'Positive daily quotes',i:'💫',c:'life'},
+{t:'Motivational Quote',d:'Daily inspiration',i:'💬',c:'life'},
+{t:'Mood Tracker',d:'Track daily mood',i:'😊',c:'life'},
+{t:'Habit Tracker',d:'Build good habits',i:'✅',c:'life'},
+{t:'Goal Setter',d:'SMART goal planner',i:'🎯',c:'life'},
+{t:'Gratitude Journal',d:'Daily gratitude',i:'🙏',c:'life'},
+{t:'Breathing Exercise',d:'Calm breathing',i:'🧘',c:'life'},
+{t:'Meditation Timer',d:'Guided meditation',i:'🧘‍♂️',c:'life'},
+{t:'Journal Prompt',d:'Daily journal prompt',i:'📔',c:'life'},
+{t:'Morning Routine',d:'Productive morning',i:'🌅',c:'life'},
+{t:'Evening Routine',d:'Calm evening plan',i:'🌙',c:'life'},
+{t:'Reading List',d:'Track books to read',i:'📚',c:'life'},
+{t:'Movie Picker',d:'Random movie suggestions',i:'🎬',c:'life'},
+{t:'Music Picker',d:'Random music genre',i:'🎵',c:'life'},
+{t:'Recipe Finder',d:'Random recipe ideas',i:'🍳',c:'life'},
+{t:'Workout Plan',d:'Weekly workout plan',i:'💪',c:'life'},
+{t:'Skincare Routine',d:'AM/PM skincare',i:'✨',c:'life'},
+{t:'Gift Ideas',d:'Random gift suggestions',i:'🎁',c:'life'},
+{t:'Date Ideas',d:'Creative date ideas',i:'💕',c:'life'},
+{t:'Conversation Start',d:'Icebreaker questions',i:'💬',c:'life'},
+{t:'Random Fact',d:'Interesting facts',i:'🤓',c:'life'},
+{t:'Random Joke',d:'Funny jokes',i:'😂',c:'life'},
+{t:'Would You Rather',d:'Fun questions',i:'🤔',c:'life'}
+];
+
+const CATS=[{id:'all',n:'All',i:'✨'},{id:'islamic',n:'Islamic',i:'🕌'},{id:'finance',n:'Finance',i:'💰'},{id:'health',n:'Health',i:'❤️'},{id:'career',n:'Career',i:'💼'},{id:'education',n:'Education',i:'📚'},{id:'travel',n:'Travel',i:'✈️'},{id:'utility',n:'Utility',i:'🛠️'},{id:'life',n:'Lifestyle',i:'🌟'}];
+let currentCat='all',shown=30;
+
+function renderCats(){
+document.getElementById('cats').innerHTML=CATS.map(c=>{
+const cnt=c.id==='all'?TOOLS.length:TOOLS.filter(t=>t.c===c.id).length;
+return `<button class="cat ${c.id===currentCat?'active':''}" onclick="filterCat('${c.id}')"><span>${c.i}</span>${c.n}<span class="count">${cnt}</span></button>`;
+}).join('');
+}
+function filterCat(c){currentCat=c;shown=30;renderCats();renderTools();}
+function renderTools(){
+const f=currentCat==='all'?TOOLS:TOOLS.filter(t=>t.c===currentCat);
+const v=f.slice(0,shown);
+document.getElementById('toolsGrid').innerHTML=v.map((t,i)=>`<a href="#" class="tool" onclick="event.preventDefault();openCalc('${t.c}','${t.t}')"><span class="tool-icon">${t.i}</span><h3>${t.t}</h3><p>${t.d}</p>${t.tag?`<span class="tool-tag ${t.tag==='POPULAR'||t.tag==='US'||t.tag==='UK'||t.tag==='INDIA'||t.tag==='PK'?'gold':''}">${t.tag}</span>`:''}</a>`).join('');
+const lm=document.getElementById('loadMore');
+lm.style.display=shown>=f.length?'none':'block';
+lm.textContent=`Load More (${f.length-shown} remaining)`;
+}
+function loadMore(){shown+=30;renderTools();}
+document.getElementById('s2').textContent=TOOLS.length+'+';
+document.getElementById('s3').textContent=CATS.length-1;
+renderCats();renderTools();
+
+// SEARCH
+const si=document.getElementById('searchInput'),rs=document.getElementById('results');
+si.addEventListener('input',function(){
+const q=this.value.toLowerCase().trim();
+if(!q){rs.classList.remove('active');return}
+const m=TOOLS.filter(t=>t.t.toLowerCase().includes(q)||t.d.toLowerCase().includes(q));
+if(!m.length){rs.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">No tools found.</div>'}
+else{rs.innerHTML=m.slice(0,20).map(t=>`<div class="result" onclick="openCalc('${t.c}','${t.t}')"><span class="ico">${t.i}</span><div><h4>${t.t}</h4><p>${t.d}</p></div></div>`).join('')}
+rs.classList.add('active');
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))rs.classList.remove('active')});
+function doSearch(){const q=si.value.toLowerCase().trim();if(!q)return;const m=TOOLS.find(t=>t.t.toLowerCase().includes(q)||t.d.toLowerCase().includes(q));if(m)openCalc(m.c,m.t);else alert('Tool not found')}
+
+// OPEN CALC
+function openCalc(cat,name){
+document.querySelectorAll('section.section,section.hero,.stats,.ticker').forEach(s=>s.style.display='none');
+document.getElementById('calcSec').classList.add('active');
+document.getElementById('calcBox').innerHTML=getCalcHTML(cat,name);
+window.scrollTo({top:0,behavior:'smooth'});
+if(name.includes('Arabic Baby Names'))renderNames();
+if(name.includes('Prayer'))renderPrayer();
+if(name.includes('Tasbih'))resetTasbih();
+}
+function closeCalc(){
+document.getElementById('calcSec').classList.remove('active');
+document.querySelectorAll('section.section,section.hero,.stats,.ticker').forEach(s=>s.style.display='');
+window.scrollTo({top:document.getElementById('tools').offsetTop,behavior:'smooth'});
+}
+const fmt=n=>isFinite(n)?n.toLocaleString('en-US',{maximumFractionDigits:2}):'0';
+
+function getCalcHTML(cat,name){
+const n=name;
+// Islamic
+if(n.includes('Zakat')&&!n.includes('Gold')&&!n.includes('Business')&&!n.includes('Property'))return`<h2>🕌 Zakat Calculator</h2><p>Calculate Zakat on total wealth.</p><div class="field"><label>Cash & Bank</label><input type="number" id="zc_cash" oninput="calcZakat()"></div><div class="field"><label>Gold Value</label><input type="number" id="zc_gold" oninput="calcZakat()"></div><div class="field"><label>Silver Value</label><input type="number" id="zc_silver" oninput="calcZakat()"></div><div class="field"><label>Business Assets</label><input type="number" id="zc_biz" oninput="calcZakat()"></div><div class="result-box"><div class="lbl">Zakat (2.5%)</div><div class="val" id="zc_res">0</div><div class="cur">SAR</div></div>`;
+if(n.includes('Prayer'))return`<h2>🕐 Prayer Times</h2><select class="city-select" id="prayerCity" onchange="renderPrayer()"><option value="riyadh">Riyadh</option><option value="dubai">Dubai</option><option value="doha">Doha</option><option value="kuwait">Kuwait</option><option value="jeddah">Jeddah</option><option value="london">London</option><option value="newyork">New York</option><option value="istanbul">Istanbul</option><option value="jakarta">Jakarta</option><option value="delhi">Delhi</option><option value="karachi">Karachi</option></select><div class="prayer-grid" id="prayerGrid"></div>`;
+if(n.includes('Hijri'))return`<h2>📅 Hijri Converter</h2><div class="field"><label>Gregorian Date</label><input type="date" id="hijri_date" onchange="convertHijri()"></div><div class="result-box"><div class="lbl">Hijri Date</div><div class="val" id="hijri_res" style="font-size:20px">-</div></div>`;
+if(n.includes('Tasbih'))return`<h2>📿 Tasbih Counter</h2><div style="text-align:center;padding:30px 0"><div style="font-size:70px;font-weight:800;color:var(--gold);margin-bottom:20px" id="tasbihCount">0</div><button class="btn" style="padding:14px 36px;margin-right:8px" onclick="incrementTasbih()">+ Count</button><button class="back-btn" onclick="resetTasbih()">Reset</button></div>`;
+if(n.includes('Arabic Baby Names'))return`<h2>👶 Arabic Baby Names</h2><div class="field"><label>Filter</label><select id="names_filter" onchange="renderNames()"><option value="all">All</option><option value="boy">Boys</option><option value="girl">Girls</option></select></div><div id="namesGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px"></div>`;
+if(n.includes('Faraid'))return`<h2>👨‍👩‍👧 Faraid Inheritance</h2><div class="field"><label>Total Estate</label><input type="number" id="fc_total" oninput="calcFaraid()"></div><div class="field"><label>Wives</label><select id="fc_wife" onchange="calcFaraid()"><option value="0">None</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div><div class="field"><label>Sons</label><input type="number" id="fc_sons" value="0" oninput="calcFaraid()"></div><div class="field"><label>Daughters</label><input type="number" id="fc_daughters" value="0" oninput="calcFaraid()"></div><div class="field"><label>Father Alive?</label><select id="fc_father" onchange="calcFaraid()"><option value="1">Yes</option><option value="0">No</option></select></div><div class="field"><label>Mother Alive?</label><select id="fc_mother" onchange="calcFaraid()"><option value="1">Yes</option><option value="0">No</option></select></div><div class="result-box" style="text-align:left"><div id="fc_result" style="color:var(--muted);font-size:13px;line-height:1.9"></div></div>`;
+// Finance
+if(n.includes('Currency'))return`<h2>💱 Currency Converter</h2><div class="field"><label>Amount</label><input type="number" id="currAmount" value="100" oninput="convertCurrency()"></div><div class="field"><label>From</label><select id="currFrom" onchange="convertCurrency()">${Object.keys(RATES).map(k=>`<option>${k}</option>`).join('')}</select></div><div class="field"><label>To</label><select id="currTo" onchange="convertCurrency()">${Object.keys(RATES).map(k=>`<option ${k==='USD'?'selected':''}>${k}</option>`).join('')}</select></div><div class="result-box"><div class="lbl">Converted</div><div class="val" id="currResult">0</div><div class="cur" id="currCur">USD</div></div>`;
+if(n.includes('Loan')||n.includes('EMI')||n.includes('Mortgage'))return`<h2>🏦 ${n}</h2><div class="field"><label>Amount</label><input type="number" id="lc_a" oninput="calcLoan()"></div><div class="field"><label>Interest % yearly</label><input type="number" id="lc_r" oninput="calcLoan()"></div><div class="field"><label>Years</label><input type="number" id="lc_y" oninput="calcLoan()"></div><div class="result-box"><div class="lbl">Monthly EMI</div><div class="val" id="lc_res">0</div></div>`;
+if(n.includes('Compound'))return`<h2>📈 Compound Interest</h2><div class="field"><label>Principal</label><input type="number" id="ci_p" oninput="calcCompound()"></div><div class="field"><label>Rate % yearly</label><input type="number" id="ci_r" oninput="calcCompound()"></div><div class="field"><label>Years</label><input type="number" id="ci_y" oninput="calcCompound()"></div><div class="result-box"><div class="lbl">Final Amount</div><div class="val" id="ci_res">0</div></div>`;
+if(n.includes('US Tax'))return`<h2>🇺🇸 US Tax</h2><div class="field"><label>Annual Income ($)</label><input type="number" id="ut_inc" oninput="calcUSTax()"></div><div class="result-box" style="text-align:left"><div style="line-height:2"><div><b style="color:var(--gold)">Tax:</b> $<span id="ut_fed">0</span></div><div><b style="color:var(--gold)">Rate:</b> <span id="ut_eff">0%</span></div><div><b style="color:var(--gold)">Net:</b> $<span id="ut_net">0</span></div></div></div>`;
+if(n.includes('UK Tax'))return`<h2>🇬🇧 UK Tax</h2><div class="field"><label>Annual Income (£)</label><input type="number" id="uk_inc" oninput="calcUKTax()"></div><div class="result-box" style="text-align:left"><div style="line-height:2"><div><b style="color:var(--gold)">Income Tax:</b> £<span id="uk_tax">0</span></div><div><b style="color:var(--gold)">NI:</b> £<span id="uk_ni">0</span></div><div><b style="color:var(--gold)">Net:</b> £<span id="uk_net">0</span></div></div></div>`;
+if(n.includes('India Income'))return`<h2>🇮🇳 India Tax</h2><div class="field"><label>Annual Income (₹)</label><input type="number" id="in_inc" oninput="calcIndiaTax()"></div><div class="result-box" style="text-align:left"><div style="line-height:2"><div><b style="color:var(--gold)">Tax:</b> ₹<span id="in_tax">0</span></div><div><b style="color:var(--gold)">Cess 4%:</b> ₹<span id="in_cess">0</span></div><div><b style="color:var(--gold)">Total:</b> ₹<span id="in_total">0</span></div></div></div>`;
+if(n.includes('Pakistan Income'))return`<h2>🇵🇰 Pakistan Tax</h2><div class="field"><label>Annual Income (PKR)</label><input type="number" id="pk_inc" oninput="calcPakTax()"></div><div class="result-box" style="text-align:left"><div style="line-height:2"><div><b style="color:var(--gold)">Tax:</b> PKR <span id="pk_tax">0</span></div><div><b style="color:var(--gold)">Net:</b> PKR <span id="pk_net">0</span></div></div></div>`;
+if(n.includes('VAT')||n.includes('GST'))return`<h2>📊 ${n}</h2><div class="field"><label>Amount</label><input type="number" id="vc_a" oninput="calcVat()"></div><div class="field"><label>Rate</label><select id="vc_r" onchange="calcVat()"><option value="15">Saudi 15%</option><option value="5">UAE 5%</option><option value="10">Bahrain 10%</option><option value="18">India 18%</option><option value="20">UK 20%</option><option value="10">Australia 10%</option></select></div><div class="result-box"><div class="lbl">Total incl. Tax</div><div class="val" id="vc_res">0</div></div>`;
+// Health
+if(n.includes('BMI')&&!n.includes('Child'))return`<h2>❤️ BMI Calculator</h2><div class="field"><label>Weight (kg)</label><input type="number" id="bc_w" oninput="calcBmi()"></div><div class="field"><label>Height (cm)</label><input type="number" id="bc_h" oninput="calcBmi()"></div><div class="result-box"><div class="lbl">Your BMI</div><div class="val" id="bc_res">0</div><div class="cur" id="bc_cat">Enter values</div></div>`;
+if(n.includes('BMR'))return`<h2>🔥 BMR Calculator</h2><div class="field"><label>Weight (kg)</label><input type="number" id="br_w" oninput="calcBmr()"></div><div class="field"><label>Height (cm)</label><input type="number" id="br_h" oninput="calcBmr()"></div><div class="field"><label>Age</label><input type="number" id="br_a" oninput="calcBmr()"></div><div class="field"><label>Gender</label><select id="br_g" onchange="calcBmr()"><option value="m">Male</option><option value="f">Female</option></select></div><div class="result-box"><div class="lbl">BMR</div><div class="val" id="br_res">0</div><div class="cur">kcal/day</div></div>`;
+if(n.includes('Water'))return`<h2>💧 Water Intake</h2><div class="field"><label>Weight (kg)</label><input type="number" id="wt_w" oninput="calcWater()"></div><div class="result-box"><div class="lbl">Daily Water</div><div class="val" id="wt_res">0</div><div class="cur">liters</div></div>`;
+if(n.includes('Calories Burned'))return`<h2>🏃 Calories Burned</h2><div class="field"><label>Weight (kg)</label><input type="number" id="cb_w" oninput="calcCalBurn()"></div><div class="field"><label>Activity</label><select id="cb_a" onchange="calcCalBurn()"><option value="6">Walking</option><option value="8">Running</option><option value="10">Cycling</option></select></div><div class="field"><label>Minutes</label><input type="number" id="cb_d" oninput="calcCalBurn()"></div><div class="result-box"><div class="lbl">Calories</div><div class="val" id="cb_res">0</div><div class="cur">kcal</div></div>`;
+// Career
+if(n.includes('Resume'))return`<h2>📝 AI Resume Builder</h2><div class="field"><label>Full Name</label><input type="text" id="rz_name"></div><div class="field"><label>Job Title</label><input type="text" id="rz_job"></div><div class="field"><label>Email</label><input type="email" id="rz_email"></div><div class="field"><label>Phone</label><input type="tel" id="rz_phone"></div><div class="field"><label>City</label><input type="text" id="rz_city"></div><div class="field"><label>Experience (Years)</label><input type="number" id="rz_exp"></div><div class="field"><label>Skills</label><input type="text" id="rz_skills"></div><div class="field"><label>Summary</label><textarea id="rz_summary"></textarea></div><button class="btn" style="width:100%;justify-content:center" onclick="generateResume()">✨ Generate</button><div id="resumeOutput" style="margin-top:20px"></div>`;
+// Education
+if(n.includes('Percentage'))return`<h2>% Percentage Calculator</h2><div class="field"><label>What is X% of Y?</label><div style="display:flex;gap:8px"><input type="number" id="pc_p" oninput="calcPct1()"><input type="number" id="pc_n" oninput="calcPct1()"></div><div style="color:var(--gold);margin-top:8px;font-weight:700" id="pc_res1">-</div></div><div class="field"><label>X is what % of Y?</label><div style="display:flex;gap:8px"><input type="number" id="pc_a" oninput="calcPct2()"><input type="number" id="pc_b" oninput="calcPct2()"></div><div style="color:var(--gold);margin-top:8px;font-weight:700" id="pc_res2">-</div></div>`;
+if(n.includes('Binary'))return`<h2>💻 Binary Converter</h2><div class="field"><label>Number</label><input type="number" id="bi_v" oninput="toBinary()"></div><div class="result-box"><div class="val" id="bi_r" style="font-size:18px">-</div></div>`;
+if(n.includes('Roman'))return`<h2>🏛️ Roman Numeral</h2><div class="field"><label>Number</label><input type="number" id="rn_v" oninput="toRoman()"></div><div class="result-box"><div class="val" id="rn_r" style="font-size:22px">-</div></div>`;
+// Utility
+if(n.includes('Age'))return`<h2>🎂 Age Calculator</h2><div class="field"><label>Date of Birth</label><input type="date" id="ag_d" onchange="calcAge()"></div><div class="result-box"><div class="lbl">Your Age</div><div class="val" id="ag_res" style="font-size:22px">-</div><div class="cur" id="ag_det">-</div></div>`;
+if(n.includes('Temperature'))return`<h2>🌡️ Temperature</h2><div class="field"><label>Value</label><input type="number" id="tp_v" oninput="calcTemp()"></div><div class="field"><label>From</label><select id="tp_f" onchange="calcTemp()"><option value="C">Celsius</option><option value="F">Fahrenheit</option><option value="K">Kelvin</option></select></div><div class="result-box" style="text-align:left"><div style="line-height:2"><div><b style="color:var(--gold)">C:</b> <span id="tp_c">-</span></div><div><b style="color:var(--gold)">F:</b> <span id="tp_fa">-</span></div><div><b style="color:var(--gold)">K:</b> <span id="tp_k">-</span></div></div></div>`;
+if(n.includes('Password'))return`<h2>🔐 Password Generator</h2><div class="field"><label>Length</label><input type="number" id="pw_l" value="16"></div><button class="btn" style="width:100%;justify-content:center" onclick="genPassword()">Generate</button><div class="result-box"><div style="word-break:break-all;color:var(--gold);font-size:15px;margin-top:8px;font-weight:700" id="pw_res">-</div></div>`;
+if(n.includes('Random Number'))return`<h2>🎲 Random Number</h2><div class="field"><label>Min</label><input type="number" id="rn_min" value="1"></div><div class="field"><label>Max</label><input type="number" id="rn_max" value="100"></div><button class="btn" style="width:100%;justify-content:center" onclick="genRandom()">Generate</button><div class="result-box"><div class="val" id="rn_res">-</div></div>`;
+if(n.includes('Date Difference')||n.includes('Working Days')||n.includes('Trip Duration'))return`<h2>📅 Date Difference</h2><div class="field"><label>Start</label><input type="date" id="dd_s" onchange="calcDateDiff()"></div><div class="field"><label>End</label><input type="date" id="dd_e" onchange="calcDateDiff()"></div><div class="result-box"><div class="val" id="dd_res">0</div><div class="cur">days</div></div>`;
+if(n.includes('Motivational')||n.includes('Affirmation')||n.includes('Quote'))return`<h2>💬 ${n}</h2><div class="result-box" style="padding:30px 24px"><div style="font-size:17px;color:var(--gold);font-style:italic;line-height:1.6" id="quoteBox">-</div><button class="btn" style="margin-top:20px" onclick="showQuote()">New Quote</button></div>`;
+if(n.includes('Random Fact'))return`<h2>🤓 Random Fact</h2><div class="result-box" style="padding:30px 24px"><div style="font-size:16px;line-height:1.7" id="factBox">-</div><button class="btn" style="margin-top:20px" onclick="showFact()">New Fact</button></div>`;
+if(n.includes('Random Joke'))return`<h2>😂 Random Joke</h2><div class="result-box" style="padding:30px 24px"><div style="font-size:16px;line-height:1.7" id="jokeBox">-</div><button class="btn" style="margin-top:20px" onclick="showJoke()">New Joke</button></div>`;
+// Default
+return`<h2>${cat==='islamic'?'🕌':cat==='finance'?'💰':cat==='health'?'❤️':cat==='career'?'💼':cat==='education'?'📚':cat==='travel'?'✈️':cat==='utility'?'🛠️':'🌟'} ${n}</h2><p>This premium tool is part of AURA Global's 500+ suite.</p><div class="field"><label>Enter Value</label><input type="number" id="gen_v" oninput="document.getElementById('gen_r').textContent=fmt((parseFloat(this.value)||0)*2)"></div><div class="result-box"><div class="lbl">Result</div><div class="val" id="gen_r">0</div></div><div style="color:var(--muted);font-size:13px;margin-top:14px">💡 Ask Aura AI for detailed help with this tool.</div>`;
+}
+
+// CALCULATIONS
+function calcZakat(){const v=['zc_cash','zc_gold','zc_silver','zc_biz'].reduce((s,i)=>s+(parseFloat(document.getElementById(i)?.value)||0),0);document.getElementById('zc_res').textContent=fmt(v*0.025)}
+function calcBmi(){const w=parseFloat(document.getElementById('bc_w')?.value)||0,h=(parseFloat(document.getElementById('bc_h')?.value)||0)/100;if(!w||!h)return;const b=w/(h*h);document.getElementById('bc_res').textContent=b.toFixed(1);document.getElementById('bc_cat').textContent=b<18.5?'Underweight':b<25?'Normal ✓':b<30?'Overweight':'Obese'}
+function calcBmr(){const w=parseFloat(document.getElementById('br_w')?.value)||0,h=parseFloat(document.getElementById('br_h')?.value)||0,a=parseFloat(document.getElementById('br_a')?.value)||0,g=document.getElementById('br_g')?.value;if(!w||!h||!a)return;document.getElementById('br_res').textContent=fmt(g==='m'?10*w+6.25*h-5*a+5:10*w+6.25*h-5*a-161)}
+function calcWater(){const w=parseFloat(document.getElementById('wt_w')?.value)||0;document.getElementById('wt_res').textContent=(w*0.033).toFixed(1)}
+function calcCalBurn(){const w=parseFloat(document.getElementById('cb_w')?.value)||0,m=parseFloat(document.getElementById('cb_a')?.value)||6,d=parseFloat(document.getElementById('cb_d')?.value)||0;document.getElementById('cb_res').textContent=fmt(w*m*(d/60))}
+function calcLoan(){const a=parseFloat(document.getElementById('lc_a')?.value)||0,r=(parseFloat(document.getElementById('lc_r')?.value)||0)/1200,y=(parseFloat(document.getElementById('lc_y')?.value)||0)*12;if(!a||!r||!y)return;document.getElementById('lc_res').textContent=fmt(a*r*Math.pow(1+r,y)/(Math.pow(1+r,y)-1))}
+function calcCompound(){const p=parseFloat(document.getElementById('ci_p')?.value)||0,r=(parseFloat(document.getElementById('ci_r')?.value)||0)/100,y=parseFloat(document.getElementById('ci_y')?.value)||0;document.getElementById('ci_res').textContent=fmt(p*Math.pow(1+r/12,12*y))}
+function calcVat(){const a=parseFloat(document.getElementById('vc_a')?.value)||0,r=parseFloat(document.getElementById('vc_r')?.value)||0;document.getElementById('vc_res').textContent=fmt(a*(1+r/100))}
+function calcPct1(){const p=parseFloat(document.getElementById('pc_p')?.value)||0,n=parseFloat(document.getElementById('pc_n')?.value)||0;document.getElementById('pc_res1').textContent=`${p}% of ${n} = ${fmt(p*n/100)}`}
+function calcPct2(){const a=parseFloat(document.getElementById('pc_a')?.value)||0,b=parseFloat(document.getElementById('pc_b')?.value)||0;if(!b)return;document.getElementById('pc_res2').textContent=`${a} is ${fmt(a/b*100)}% of ${b}`}
+function calcTemp(){const v=parseFloat(document.getElementById('tp_v')?.value)||0,f=document.getElementById('tp_f')?.value;let c,fa,k;if(f==='C'){c=v;fa=v*9/5+32;k=v+273.15}else if(f==='F'){c=(v-32)*5/9;fa=v;k=c+273.15}else{c=v-273.15;fa=c*9/5+32;k=v}document.getElementById('tp_c').textContent=c.toFixed(2);document.getElementById('tp_fa').textContent=fa.toFixed(2);document.getElementById('tp_k').textContent=k.toFixed(2)}
+function genPassword(){const l=parseInt(document.getElementById('pw_l')?.value)||16;let ch='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';let p='';for(let i=0;i<l;i++)p+=ch[Math.floor(Math.random()*ch.length)];document.getElementById('pw_res').textContent=p}
+function genRandom(){const min=parseInt(document.getElementById('rn_min')?.value)||0,max=parseInt(document.getElementById('rn_max')?.value)||100;document.getElementById('rn_res').textContent=Math.floor(Math.random()*(max-min+1))+min}
+function calcDateDiff(){const s=new Date(document.getElementById('dd_s')?.value),e=new Date(document.getElementById('dd_e')?.value);if(isNaN(s)||isNaN(e))return;document.getElementById('dd_res').textContent=Math.round((e-s)/86400000)}
+function calcAge(){const d=new Date(document.getElementById('ag_d')?.value);if(isNaN(d))return;const n=new Date();let y=n.getFullYear()-d.getFullYear(),m=n.getMonth()-d.getMonth(),dd=n.getDate()-d.getDate();if(dd<0){m--;dd+=30}if(m<0){y--;m+=12}document.getElementById('ag_res').textContent=`${y}y ${m}m ${dd}d`;document.getElementById('ag_det').textContent=`Total: ${Math.floor((n-d)/86400000)} days`}
+function toBinary(){document.getElementById('bi_r').textContent=(parseInt(document.getElementById('bi_v')?.value)||0).toString(2)}
+function toRoman(){const n=parseInt(document.getElementById('rn_v')?.value)||0;const r=[[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];let s='',x=n;r.forEach(([v,sy])=>{while(x>=v){s+=sy;x-=v}});document.getElementById('rn_r').textContent=s||'-'}
+function calcUSTax(){const inc=parseFloat(document.getElementById('ut_inc')?.value)||0;let fed=0;if(inc<=11600)fed=inc*0.10;else if(inc<=47150)fed=1160+(inc-11600)*0.12;else if(inc<=100525)fed=5426+(inc-47150)*0.22;else fed=17214+(inc-100525)*0.24;document.getElementById('ut_fed').textContent=fed.toFixed(0);document.getElementById('ut_eff').textContent=inc?((fed/inc)*100).toFixed(1)+'%':'0%';document.getElementById('ut_net').textContent=(inc-fed).toFixed(0)}
+function calcUKTax(){const inc=parseFloat(document.getElementById('uk_inc')?.value)||0;let tax=0;if(inc>12570){if(inc<=50270)tax=(inc-12570)*0.20;else if(inc<=125140)tax=(50270-12570)*0.20+(inc-50270)*0.40;else tax=(50270-12570)*0.20+(125140-50270)*0.40+(inc-125140)*0.45}let ni=0;if(inc>12570){if(inc<=50270)ni=(inc-12570)*0.08;else ni=(50270-12570)*0.08+(inc-50270)*0.02}document.getElementById('uk_tax').textContent=tax.toFixed(0);document.getElementById('uk_ni').textContent=ni.toFixed(0);document.getElementById('uk_net').textContent=(inc-tax-ni).toFixed(0)}
+function calcIndiaTax(){const inc=parseFloat(document.getElementById('in_inc')?.value)||0;let tax=0;if(inc<=300000)tax=0;else if(inc<=600000)tax=(inc-300000)*0.05;else if(inc<=900000)tax=15000+(inc-600000)*0.10;else if(inc<=1200000)tax=45000+(inc-900000)*0.15;else tax=90000+(inc-1200000)*0.20;const cess=tax*0.04;document.getElementById('in_tax').textContent=tax.toFixed(0);document.getElementById('in_cess').textContent=cess.toFixed(0);document.getElementById('in_total').textContent=(tax+cess).toFixed(0)}
+function calcPakTax(){const inc=parseFloat(document.getElementById('pk_inc')?.value)||0;let tax=0;if(inc<=600000)tax=0;else if(inc<=1200000)tax=(inc-600000)*0.05;else if(inc<=2200000)tax=30000+(inc-1200000)*0.15;else tax=180000+(inc-2200000)*0.25;document.getElementById('pk_tax').textContent=tax.toFixed(0);document.getElementById('pk_net').textContent=(inc-tax).toFixed(0)}
+function calcFaraid(){const t=parseFloat(document.getElementById('fc_total')?.value)||0;if(!t){document.getElementById('fc_result').innerHTML='Enter estate value.';return;}const wives=parseInt(document.getElementById('fc_wife')?.value)||0,sons=parseInt(document.getElementById('fc_sons')?.value)||0,daughters=parseInt(document.getElementById('fc_daughters')?.value)||0;let sh={},rem=t;if(wives>0){const s=(sons>0||daughters>0)?1/8:1/4;sh['Wife(s)']=t*s;rem-=t*s}if(document.getElementById('fc_mother')?.value==='1'){sh['Mother']=t*(1/6);rem-=t*(1/6)}if(sons>0||daughters>0){const tot=sons*2+daughters;sh['Sons']=rem*(sons*2/tot);if(daughters>0)sh['Daughters']=rem*(daughters/tot);rem=0}let h='';for(const[k,v]of Object.entries(sh)){if(v>0)h+=`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--dark3)"><span>${k}:</span><strong style="color:var(--gold)">${fmt(v)} SAR</strong></div>`}document.getElementById('fc_result').innerHTML=h||'Enter details'}
+const RATES={SAR:1,AED:0.98,QAR:0.97,KWD:0.082,BHD:0.10,OMR:0.103,USD:0.267,EUR:0.245,GBP:0.21,JPY:39.5,CNY:1.92,INR:22.20,PKR:74.20,IDR:4200,MYR:1.19,THB:9.55,SGD:0.355,CAD:0.36,AUD:0.40,CHF:0.235,ZAR:4.95,NGN:415,EGP:13.20,TRY:9.20,BRL:1.55,MXN:5.35,KRW:360};
+function convertCurrency(){const a=parseFloat(document.getElementById('currAmount')?.value)||0,f=document.getElementById('currFrom')?.value,t=document.getElementById('currTo')?.value;if(!RATES[f]||!RATES[t])return;document.getElementById('currResult').textContent=fmt((a/RATES[f])*RATES[t]);document.getElementById('currCur').textContent=t}
+const PRAYER_DATA={riyadh:{f:'04:45',d:'11:58',a:'15:22',m:'18:15',i:'19:45'},dubai:{f:'04:52',d:'12:20',a:'15:45',m:'18:40',i:'20:10'},doha:{f:'04:40',d:'12:10',a:'15:35',m:'18:25',i:'19:55'},kuwait:{f:'04:35',d:'11:50',a:'15:15',m:'18:10',i:'19:40'},jeddah:{f:'05:00',d:'12:25',a:'15:50',m:'18:50',i:'20:20'},london:{f:'05:30',d:'12:15',a:'14:30',m:'16:45',i:'18:15'},newyork:{f:'05:45',d:'12:30',a:'15:45',m:'18:00',i:'19:30'},istanbul:{f:'05:20',d:'12:25',a:'14:50',m:'17:15',i:'18:45'},jakarta:{f:'04:20',d:'11:50',a:'15:15',m:'17:55',i:'19:10'},delhi:{f:'04:55',d:'12:15',a:'15:35',m:'18:00',i:'19:25'},karachi:{f:'05:10',d:'12:30',a:'15:50',m:'18:20',i:'19:45'}};
+function renderPrayer(){const c=document.getElementById('prayerCity')?.value||'dubai';const d=PRAYER_DATA[c];const p=[{n:'Fajr',t:d.f},{n:'Dhuhr',t:d.d},{n:'Asr',t:d.a},{n:'Maghrib',t:d.m},{n:'Isha',t:d.i}];document.getElementById('prayerGrid').innerHTML=p.map(x=>`<div class="prayer-item"><div class="lbl">${x.n}</div><div class="time">${x.t}</div></div>`).join('')}
+function convertHijri(){const d=new Date(document.getElementById('hijri_date')?.value||new Date());if(isNaN(d))return;const jd=Math.floor((d.getTime()/86400000)+2440587.5);const l=jd-1948440+10632;const n=Math.floor((l-1)/10631);const l2=l-10631*n+354;const j=(Math.floor((10985-l2)/5316))*((50*j)/17719)+(Math.floor(l2/5670))*((43*j)/15238);const l3=l2-(Math.floor((30-j)/15))*((17719*j)/50)-(Math.floor(j/16))*((15238*j)/43)+29;const m=Math.floor((24*l3)/709);const day=l3-Math.floor((709*m)/24);const y=30*n+j-30;const mo=['Muharram','Safar','Rabi I','Rabi II','Jumada I','Jumada II','Rajab','Shaban','Ramadan','Shawwal','Dhul Qadah','Dhul Hijjah'];document.getElementById('hijri_res').textContent=`${day} ${mo[m-1]||'Muharram'} ${y} AH`}
+let tbCount=0;
+function incrementTasbih(){tbCount++;const el=document.getElementById('tasbihCount');if(el)el.textContent=tbCount}
+function resetTasbih(){tbCount=0;const el=document.getElementById('tasbihCount');if(el)el.textContent=0}
+const NAMES=[{n:'Ahmed',ar:'أحمد',m:'Praised',g:'boy'},{n:'Muhammad',ar:'محمد',m:'Praiseworthy',g:'boy'},{n:'Ali',ar:'علي',m:'Noble',g:'boy'},{n:'Omar',ar:'عمر',m:'Flourishing',g:'boy'},{n:'Yusuf',ar:'يوسف',m:'God increases',g:'boy'},{n:'Khalid',ar:'خالد',m:'Eternal',g:'boy'},{n:'Ibrahim',ar:'إبراهيم',m:'Father of many',g:'boy'},{n:'Hassan',ar:'حسن',m:'Good',g:'boy'},{n:'Zain',ar:'زين',m:'Beauty',g:'boy'},{n:'Faisal',ar:'فيصل',m:'Decisive',g:'boy'},{n:'Fatima',ar:'فاطمة',m:'Prophet daughter',g:'girl'},{n:'Aisha',ar:'عائشة',m:'Alive',g:'girl'},{n:'Maryam',ar:'مريم',m:'Beloved',g:'girl'},{n:'Zainab',ar:'زينب',m:'Fragrant',g:'girl'},{n:'Sara',ar:'سارة',m:'Princess',g:'girl'},{n:'Noor',ar:'نور',m:'Light',g:'girl'},{n:'Layla',ar:'ليلى',m:'Night',g:'girl'},{n:'Hana',ar:'هناء',m:'Happiness',g:'girl'},{n:'Amira',ar:'أميرة',m:'Princess',g:'girl'},{n:'Salma',ar:'سلمى',m:'Peaceful',g:'girl'}];
+function renderNames(){const f=document.getElementById('names_filter')?.value||'all';const list=f==='all'?NAMES:NAMES.filter(x=>x.g===f);document.getElementById('namesGrid').innerHTML=list.map(x=>`<div style="background:var(--dark);border:1px solid var(--dark3);border-radius:12px;padding:14px"><h4 style="color:var(--gold);font-size:15px;margin-bottom:4px">${x.n}</h4><div style="color:var(--cyan);font-size:14px;direction:rtl;margin-bottom:6px">${x.ar}</div><p style="color:var(--muted);font-size:12px">${x.m}</p></div>`).join('')}
+function generateResume(){const name=document.getElementById('rz_name')?.value||'Your Name',job=document.getElementById('rz_job')?.value||'Professional',em=document.getElementById('rz_email')?.value||'',ph=document.getElementById('rz_phone')?.value||'',ct=document.getElementById('rz_city')?.value||'',ex=document.getElementById('rz_exp')?.value||'0',sk=document.getElementById('rz_skills')?.value||'',sm=document.getElementById('rz_summary')?.value||'';document.getElementById('resumeOutput').innerHTML=`<div style="background:#fff;color:#1a1a1a;padding:26px;border-radius:12px;font-family:Georgia"><h1 style="font-size:22px;color:#0a0f1c">${name}</h1><p style="color:#d4af37;font-weight:700;margin-bottom:10px">${job}</p><p style="font-size:12px;color:#555;margin-bottom:14px">${em} • ${ph} • ${ct}</p><hr style="border:none;border-top:2px solid #d4af37;margin-bottom:12px"><h3 style="color:#0a0f1c;font-size:13px">SUMMARY</h3><p style="font-size:12px;color:#333;margin-bottom:12px">${sm||'Experienced professional with '+ex+' years.'}</p><h3 style="color:#0a0f1c;font-size:13px">SKILLS</h3><p style="font-size:12px;color:#333">${sk||'Communication'}</p><p style="font-size:10px;color:#999;margin-top:14px;text-align:center">AURA Global AI</p></div>`}
+const QUOTES=['Success is not final, failure is not fatal.','The journey of a thousand miles begins with one step.','Believe you can and you are halfway there.','Dream big, work hard, stay focused.','Be the change you wish to see in the world.','The only way to do great work is to love what you do.'];
+const FACTS=['Honey never spoils.','Octopuses have three hearts.','A day on Venus is longer than its year.','Bananas are berries, but strawberries are not.','The Eiffel Tower can grow 15cm in summer.'];
+const JOKES=['Why don\'t scientists trust atoms? They make up everything!','What do you call a fake noodle? An impasta!','Why did the scarecrow win an award? He was outstanding in his field!'];
+function showQuote(){const q=QUOTES[Math.floor(Math.random()*QUOTES.length)];const el=document.getElementById('quoteBox');if(el)el.textContent=`"${q}"`}
+function showFact(){const f=FACTS[Math.floor(Math.random()*FACTS.length)];const el=document.getElementById('factBox');if(el)el.textContent=f}
+function showJoke(){const j=JOKES[Math.floor(Math.random()*JOKES.length)];const el=document.getElementById('jokeBox');if(el)el.textContent=j}
+
+// TICKER
+const tk=[{l:'Gold',v:'310.45 SAR',u:1},{l:'Silver',v:'3.85 SAR',u:0},{l:'USD',v:'3.75 SAR',u:0},{l:'EUR',v:'4.05 SAR',u:1},{l:'GBP',v:'4.75 SAR',u:0},{l:'INR',v:'0.045 SAR',u:1},{l:'BTC',v:'$68,450',u:1},{l:'Oil',v:'$84.20',u:0}];
+const th=tk.map(t=>`<div class="ticker-item">${t.l}: <strong style="color:var(--text)">${t.v}</strong> <span class="${t.u?'up':'down'}">${t.u?'▲':'▼'}</span></div>`).join('');
+document.getElementById('ticker').innerHTML=th+th;
+setTimeout(()=>document.getElementById('s1').textContent='20K+',500);
+
+// ============ AURA AI AGENT ============
+let aiMode='general';
+function openAIAgent(){document.getElementById('aiPanel').classList.add('active');document.getElementById('aiFab')&&(document.getElementById('aiFab').style.display='none');const fab=document.querySelector('.ai-fab');if(fab)fab.style.display='none';setTimeout(()=>document.getElementById('aiInput').focus(),400)}
+function closeAIAgent(){document.getElementById('aiPanel').classList.remove('active');const fab=document.querySelector('.ai-fab');if(fab)fab.style.display='flex'}
+function setAIMode(m){aiMode=m;document.querySelectorAll('.ai-mode').forEach(b=>b.classList.toggle('active',b.dataset.m===m));const names={general:'General Help',islamic:'Islamic Questions',finance:'Finance & Money',health:'Health & Wellness',career:'Career & Jobs',study:'Study & Education',travel:'Travel & Visa',tech:'Tech & Coding'};addAIMsg('assistant',`Switched to <strong>${names[m]}</strong> mode. Ask me anything! 🎯`)}
+function quickAsk(q){document.getElementById('aiInput').value=q;sendAIMessage()}
+function addAIMsg(role,text){const b=document.getElementById('aiBody');const c=document.getElementById('aiChips');if(c)c.style.display='none';const d=document.createElement('div');d.className='ai-msg '+role;d.innerHTML=`<div class="ai-av">${role==='user'?'👤':'✨'}</div><div class="ai-bubble">${text}</div>`;b.appendChild(d);b.scrollTop=b.scrollHeight}
+function showTyping(){const b=document.getElementById('aiBody');const t=document.createElement('div');t.className='ai-msg';t.id='aiTyping';t.innerHTML=`<div class="ai-av">✨</div><div class="ai-typing"><span></span><span></span><span></span></div>`;b.appendChild(t);b.scrollTop=b.scrollHeight}
+function hideTyping(){const t=document.getElementById('aiTyping');if(t)t.remove()}
+async function sendAIMessage(){const i=document.getElementById('aiInput');const m=i.value.trim();if(!m)return;i.value='';i.style.height='auto';addAIMsg('user',m);showTyping();await new Promise(r=>setTimeout(r,600+Math.random()*500));hideTyping();addAIMsg('assistant',getAIAnswer(m))}
+
+function getAIAnswer(q){
+const t=q.toLowerCase();
+// ISLAMIC
+if(t.includes('zakat')||t.includes('زکوٰۃ')||t.includes('زكاة'))return`<strong>🕌 Zakat Guide</strong><br><br>Zakat is the 3rd pillar of Islam — 2.5% of savings above Nisab.<br><br><strong>Nisab:</strong> 87.48g gold OR 612.36g silver<br><strong>Rate:</strong> 2.5% (1/40) after 1 lunar year<br><br><strong>Zakat on:</strong> Cash, Gold, Silver, Business stock, Investments<br><strong>NOT on:</strong> Home you live in, personal car, furniture<br><br>👉 Use our <a onclick="closeAIAgent();openCalc('islamic','Zakat Calculator')">Zakat Calculator</a>`;
+if(t.includes('prayer')||t.includes('namaz')||t.includes('نماز'))return`<strong>🕐 Prayer Times</strong><br><br>5 daily prayers: Fajr, Dhuhr, Asr, Maghrib, Isha<br><br>👉 Open our <a onclick="closeAIAgent();openCalc('islamic','Prayer Times')">Prayer Times tool</a> for your city!`;
+if(t.includes('hijri'))return`<strong>📅 Hijri Calendar</strong><br><br>Islamic lunar calendar with 12 months. Today's approximate conversion available in our tool.<br><br>👉 Use <a onclick="closeAIAgent();openCalc('islamic','Hijri Converter')">Hijri Converter</a>`;
+if(t.includes('halal')||t.includes('haram'))return`<strong>☪️ Halal & Haram</strong><br><br><strong>Halal:</strong> Clean food, meat slaughtered in Allah's name, honest business, marriage<br><strong>Haram:</strong> Pork, alcohol, riba (interest), gambling, drugs, fraud<br><br>When in doubt, avoid it. "Halal is clear, Haram is clear." (Hadith)`;
+// FINANCE
+if(t.includes('us tax')||t.includes('america tax'))return`<strong>🇺🇸 US Tax Brackets 2025</strong><ul><li>10%: $0-$11,600</li><li>12%: $11,600-$47,150</li><li>22%: $47,150-$100,525</li><li>24%: $100,525-$191,950</li></ul>👉 Use <a onclick="closeAIAgent();openCalc('finance','US Tax Calculator')">US Tax Calculator</a>`;
+if(t.includes('uk tax'))return`<strong>🇬🇧 UK Tax Rates</strong><ul><li>0% up to £12,570</li><li>20%: £12,570-£50,270</li><li>40%: £50,270-£125,140</li><li>45%: £125,140+</li></ul>👉 Use <a onclick="closeAIAgent();openCalc('finance','UK Tax Calculator')">UK Tax Calculator</a>`;
+if(t.includes('india tax')||t.includes('income tax india'))return`<strong>🇮🇳 India Tax (New Regime)</strong><ul><li>0%: Up to ₹3L</li><li>5%: ₹3L-6L</li><li>10%: ₹6L-9L</li><li>15%: ₹9L-12L</li><li>20%: ₹12L-15L</li><li>30%: ₹15L+</li></ul>+4% cess 👉 Use <a onclick="closeAIAgent();openCalc('finance','India Income Tax')">India Tax Calculator</a>`;
+if(t.includes('pakistan tax')||t.includes('pak tax'))return`<strong>🇵🇰 Pakistan Tax 2025</strong><ul><li>0%: Up to Rs 600K</li><li>5%: Rs 600K-1.2M</li><li>15%: Rs 1.2M-2.2M</li><li>25%: Rs 2.2M-3.2M</li><li>30%: Rs 3.2M-4.1M</li><li>35%: Rs 4.1M+</li></ul>👉 Use <a onclick="closeAIAgent();openCalc('finance','Pakistan Income Tax')">Pakistan Tax Calculator</a>`;
+if(t.includes('loan')||t.includes('emi'))return`<strong>💰 Loan EMI Formula</strong><br><br>EMI = P × r × (1+r)^n / ((1+r)^n − 1)<br><br>Where P=loan, r=monthly interest, n=months<br><br>👉 Use <a onclick="closeAIAgent();openCalc('finance','Loan EMI')">EMI Calculator</a>`;
+if(t.includes('riba')||t.includes('interest')&&t.includes('islam'))return`<strong>☪️ Riba in Islam</strong><br><br>Interest is strictly <strong>HARAM</strong>. Quran 2:275: "...Allah has permitted trade and forbidden interest."<br><br><strong>Islamic alternatives:</strong> Murabaha, Musharakah, Mudarabah, Ijarah, Qard Hasan`;
+// HEALTH
+if(t.includes('bmi'))return`<strong>❤️ BMI Guide</strong><br><br>BMI = weight(kg) ÷ height(m)²<br><br><ul><li><18.5: Underweight</li><li>18.5-24.9: Normal ✓</li><li>25-29.9: Overweight</li><li>30+: Obese</li></ul>👉 Use <a onclick="closeAIAgent();openCalc('health','BMI Calculator')">BMI Calculator</a>`;
+if(t.includes('weight loss'))return`<strong>⚖️ Weight Loss Guide</strong><ul><li>Deficit: 300-500 cal/day</li><li>Protein: 1.6g per kg</li><li>Water: 3L/day</li><li>Steps: 8-10K/day</li><li>Sleep: 7-8 hours</li></ul>Expected: 0.5-1 kg/week`;
+if(t.includes('pregnan'))return`<strong>🤰 Pregnancy Guide</strong><br><br>Due Date = Last period + 280 days<br><br>3 Trimesters, watch for warning signs (bleeding, severe pain).<br>👉 Use <a onclick="closeAIAgent();openCalc('health','Pregnancy Due Date')">Pregnancy Calculator</a>`;
+if(t.includes('diabet')||t.includes('sugar'))return`<strong>🩸 Diabetes Info</strong><br><br>Normal fasting: <100 mg/dL<br>Prediabetes: 100-125<br>Diabetes: 126+ (2 tests)<br><br>Manage: Diet, exercise, monitoring, medication`;
+// CAREER
+if(t.includes('resume')||t.includes('cv'))return`<strong>📝 Resume Tips</strong><ul><li>1 page if <5 years exp</li><li>Action verbs (managed, led, built)</li><li>Quantify (30% growth)</li><li>PDF format</li><li>No photo in US/UK</li></ul>👉 Use <a onclick="closeAIAgent();openCalc('career','AI Resume Builder')">AI Resume Builder</a>`;
+if(t.includes('interview'))return`<strong>🎤 Interview Prep</strong><br><br>Top questions: Tell me about yourself, Why this company, Strengths/weaknesses, Salary expectations<br><br>STAR Method: Situation → Task → Action → Result<br><br>Research company, dress formal, arrive early!`;
+if(t.includes('salary')||t.includes('negotiat'))return`<strong>💬 Salary Negotiation</strong><ul><li>Research market rate</li><li>Quote 10-20% above target</li><li>Consider whole package</li><li>Get everything in writing</li></ul>Script: "Based on my experience, I'm targeting [X]. Is that within your budget?"`;
+// STUDY
+if(t.includes('study')||t.includes('homework'))return`<strong>📚 Study Tips</strong><ul><li>Pomodoro: 25 min + 5 min break</li><li>Active recall — test yourself</li><li>Spaced repetition</li><li>Feynman technique — teach it</li></ul>Apps: Anki, Notion, Forest, Khan Academy`;
+if(t.includes('math')||t.includes('algebra'))return`<strong>🔢 Math Help</strong><br><br>Ask specific question! Common: <ul><li>Percentage: x% of y = (x/100)×y</li><li>Average: Sum ÷ Count</li><li>Circle: πr²</li><li>Pythagoras: a² + b² = c²</li></ul>Free: Khan Academy, Wolfram Alpha`;
+// TRAVEL
+if(t.includes('visa'))return`<strong>🛂 Visa Info</strong><ul><li>UAE: 30/60 day (many visa-free)</li><li>Saudi: e-Visa for 49+ countries</li><li>Qatar: Visa-free for 95+</li><li>Kuwait/Bahrain/Oman: e-Visa</li></ul>Need: Passport (6mo validity), photo, bank statement, hotel booking, return ticket`;
+if(t.includes('flight')||t.includes('ticket'))return`<strong>✈️ Cheap Flight Tips</strong><ul><li>Book Tue/Wed (cheapest)</li><li>6-8 weeks before travel</li><li>Use Skyscanner, Google Flights</li><li>Incognito mode</li><li>Check nearby airports</li></ul>`;
+// TECH
+if(t.includes('code')||t.includes('programming'))return`<strong>💻 Learn Coding</strong><br><br>Start with: <ul><li>Python (best for beginners)</li><li>JavaScript (web)</li><li>HTML/CSS (first step)</li></ul>Free: freeCodeCamp, Codecademy, Khan Academy<br><br>30 min daily × 3 months = confident`;
+if(t.includes('ai')||t.includes('chatgpt'))return`<strong>🤖 AI Tools</strong><ul><li>ChatGPT — writing, coding</li><li>Gemini — Google free</li><li>Claude — long docs</li><li>Perplexity — AI search</li><li>Leonardo — images</li></ul>Make money: Freelance writing, Automation, Consulting`;
+// GREETINGS
+if(t.includes('salam')||t.includes('سلام'))return`Wa alaikum assalam wa rahmatullah! 🌙<br><br>Kaise madad kar sakta hoon? Ask me about <strong>Zakat, Health, Career, Tax, Travel</strong> — jo bhi aap poochna chahein! ✨`;
+if(t.includes('hello')||t.includes('hi')||t.includes('namaste'))return`Hello! 👋 Welcome to AURA Global!<br><br>I can help with:<br>💰 Finance (Zakat, Tax)<br>❤️ Health<br>💼 Career<br>📚 Study<br>✈️ Travel<br>🕌 Islamic<br><br>What would you like to know?`;
+if(t.includes('thank'))return`You're most welcome! 🤗<br>Happy to help anytime.`;
+return`<strong>Great question!</strong> 🤔<br><br>For detailed answers, try our <strong>500+ tools</strong> above or ask me something specific like:<br><br>🕌 "Zakat kaise calculate karein?"<br>💰 "US tax rates"<br>❤️ "How to calculate BMI?"<br>📝 "Resume kaise banayein?"<br>🕐 "Prayer times Dubai"<br>✈️ "UAE visa info"<br><br>Or use the <strong>category buttons</strong> above! 💫`;
+}
+
+// LANGUAGE
+function changeLang(l){document.documentElement.lang=l;localStorage.setItem('auraLang',l)}
+if(localStorage.getItem('auraLang')){document.querySelector('.lang-select').value=localStorage.getItem('auraLang')}
+
+// Keyboard
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAIAgent()});
+</script>
 </body>
 </html>
