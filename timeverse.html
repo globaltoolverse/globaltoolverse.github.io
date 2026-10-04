@@ -644,38 +644,33 @@ function updateQibla(city){
   document.getElementById('qiblaDeg').textContent=a;
   document.getElementById('qiblaCity').textContent=city;
 }
-
-async function loadGold(){
+  async function loadGold(){
   const c=document.getElementById('goldRates');
-  let g24=245000,g22=224500,sil=2950;
+  let g24=436336,g22=400583,sil=6522;
   try{
-    const r=await fetch('https://api.metals.live/v1/spot');
-    if(r.ok){
-      const d=await r.json();
-      if(d&&d[0]&&d[0].gold){
-        g24=Math.round(d[0].gold*31.1035*280);
-        g22=Math.round(g24*0.916);
-      }
-      if(d&&d[0]&&d[0].silver){
-        sil=Math.round(d[0].silver*31.1035*280);
-      }
+    const r=await fetch('https://bakhabarpakistan.com/en/finance/gold-rates/api/');
+    const d=await r.json();
+    if(d && d.rates){
+      if(d.rates['24k']) g24 = d.rates['24k'];
+      if(d.rates['22k']) g22 = d.rates['22k'];
+      if(d.rates['silver']) sil = d.rates['silver'];
     }
   }catch(e){}
   c.innerHTML=`
     <div class="rate-row"><span class="rate-label">سونے 24K (فی تولہ)</span><span class="rate-value">${g24.toLocaleString()} روپے</span></div>
     <div class="rate-row"><span class="rate-label">سونے 22K (فی تولہ)</span><span class="rate-value">${g22.toLocaleString()} روپے</span></div>
-    <div class="rate-row"><span class="rate-label">چاندی (فی تولہ)</span><span class="rate-value">${sil.toLocaleString()} روپے</span></div>`;
+    <div class="rate-row"><span class="rate-label">چاندی (فی تولہ)</span><span class="rate-value">${sil.toLocaleString()} روپے</span></div>
+  `;
   document.getElementById('goldUpdate').textContent=new Date().toLocaleTimeString('ur-PK');
 }
-
-const COORDS={'Karachi':[24.86,67.01],'Lahore':[31.55,74.34],
-  'Islamabad':[33.68,73.04],'Rawalpindi':[33.60,73.04],
-  'Faisalabad':[31.42,73.08],'Multan':[30.19,71.47],
-  'Peshawar':[34.01,71.58],'Quetta':[30.18,66.99],
-  'Hyderabad':[25.39,68.37],'Gujranwala':[32.19,74.19]};
-async function loadWeather(){
+  async function loadWeather(){
   const city=document.getElementById('citySelect').value;
-  const [lat,lon]=COORDS[city]||[24.86,67.01];
+  const coords={'Karachi':[24.86,67.01],'Lahore':[31.55,74.34],
+    'Islamabad':[33.68,73.04],'Rawalpindi':[33.60,73.04],
+    'Faisalabad':[31.42,73.08],'Multan':[30.19,71.47],
+    'Peshawar':[34.01,71.58],'Quetta':[30.18,66.99],
+    'Hyderabad':[25.39,68.37],'Gujranwala':[32.19,74.19]};
+  const [lat,lon]=coords[city]||[24.86,67.01];
   try{
     const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
     const d=await r.json();
@@ -687,7 +682,30 @@ async function loadWeather(){
     document.getElementById('weather').innerHTML='<div style="color:#ff4757">موسم دستیاب نہیں</div>';
   }
 }
+  
 
+
+    
+    
+}
+function calculateZakat(){
+  const gold=parseFloat(document.getElementById('zGold').value)||0;
+  const silver=parseFloat(document.getElementById('zSilver').value)||0;
+  const cash=parseFloat(document.getElementById('zCash').value)||0;
+  const bus=parseFloat(document.getElementById('zBusiness').value)||0;
+  const prop=parseFloat(document.getElementById('zProperty').value)||0;
+  const gp=436336,sp=6522;
+  const nisab=7.5*gp;
+  const total=(gold*gp)+(silver*sp)+cash+bus+prop;
+  const el=document.getElementById('zakatResult');
+  if(total<nisab){
+    el.innerHTML=`آپ پر زکوٰۃ فرض نہیں۔<br>نصاب: ${nisab.toLocaleString()} روپے<br>آپ کا مال: ${total.toLocaleString()} روپے`;
+  }else{
+    const z=total*0.025;
+    el.innerHTML=`کل مال: ${total.toLocaleString()} روپے<br>زکوٰۃ (2.5%): <strong style="color:#FFD700">${z.toLocaleString()} روپے</strong>`;
+  }
+  el.classList.add('show');
+}
 function subMin(t,min){
   const [h,m]=t.split(':').map(Number);
   const total=h*60+m-min;
@@ -707,24 +725,8 @@ async function loadRamzan(){
   }
 }
 
-function calculateZakat(){
-  const gold=parseFloat(document.getElementById('zGold').value)||0;
-  const silver=parseFloat(document.getElementById('zSilver').value)||0;
-  const cash=parseFloat(document.getElementById('zCash').value)||0;
-  const bus=parseFloat(document.getElementById('zBusiness').value)||0;
-  const prop=parseFloat(document.getElementById('zProperty').value)||0;
-  const gp=245000,sp=2950;
-  const nisab=7.5*gp;
-  const total=(gold*gp)+(silver*sp)+cash+bus+prop;
-  const el=document.getElementById('zakatResult');
-  if(total<nisab){
-    el.innerHTML=`آپ پر زکوٰۃ فرض نہیں۔<br>نصاب: ${nisab.toLocaleString()} روپے<br>آپ کا مال: ${total.toLocaleString()} روپے`;
-  }else{
-    const z=total*0.025;
-    el.innerHTML=`کل مال: ${total.toLocaleString()} روپے<br>زکوٰۃ (2.5%): <strong style="color:#FFD700">${z.toLocaleString()} روپے</strong>`;
-  }
-  el.classList.add('show');
-}
+
+
 
 let listening=false,recog;
 function toggleVoice(){
