@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a2e">
+<meta name="description" content="AURA TimeVerse — Urdu Time, Prayer, Weather, Zakat, Voice Assistant">
+<title>AURA TimeVerse — Sab Kuch Ek Jagah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-1:#0a0a2e; --bg-2:#1a1a4e;
+  --accent:#00d4ff; --accent-2:#7b2ff7;
+  --gold:#FFD700; --text:#fff; --text-dim:#a0a0c0;
+  --glass:rgba(255,255,255,0.06);
+  --glass-border:rgba(255,255,255,0.12);
+  --shadow:0 8px 32px rgba(0,0,0,0.4);
+  --up:#00ff88; --down:#ff4757;
+}
+[data-theme="light"]{
+  --bg-1:#eef2ff; --bg-2:#fff;
+  --text:#0a0a2e; --text-dim:#555580;
+  --glass:rgba(255,255,255,0.75);
+  --glass-border:rgba(0,0,0,0.08);
+  --shadow:0 8px 32px rgba(0,0,0,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter','Noto Nastaliq Urdu',sans-serif;
+  background:linear-gradient(135deg,var(--bg-1),var(--bg-2));
+  color:var(--text);min-height:100vh;padding:16px;
+  transition:all .4s ease;overflow-x:hidden;
+}
+.orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:.4;z-index:-1;animation:float 20s infinite ease-in-out}
+.orb-1{width:400px;height:400px;background:var(--accent);top:-100px;left:-100px}
+.orb-2{width:300px;height:300px;background:var(--accent-2);bottom:-100px;right:-100px;animation-delay:-5s}
+.orb-3{width:250px;height:250px;background:var(--gold);top:50%;left:50%;animation-delay:-10s;opacity:.15}
+@keyframes float{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(50px,-50px) scale(1.1)}
+  66%{transform:translate(-50px,50px) scale(.9)}
+}
+.container{max-width:1200px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 0;margin-bottom:24px;gap:12px;flex-wrap:wrap}
+.logo{font-size:1.6rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header-actions{display:flex;gap:10px;align-items:center}
+.icon-btn{
+  background:var(--glass);border:1px solid var(--glass-border);color:var(--text);
+  width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:1.2rem;
+  backdrop-filter:blur(20px);transition:all .3s ease;
+}
+.icon-btn:hover{transform:rotate(180deg) scale(1.1)}
+.city-select{
+  padding:12px 16px;background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:12px;color:var(--text);font-size:1rem;font-family:inherit;
+  cursor:pointer;outline:none;min-width:160px;
+}
+.city-select option{background:var(--bg-2);color:var(--text)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.card{
+  background:var(--glass);border:1px solid var(--glass-border);border-radius:24px;
+  padding:24px;backdrop-filter:blur(20px);box-shadow:var(--shadow);
+  transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  transition:left .6s ease;
+}
+.card:hover::before{left:100%}
+.card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.card-title{
+  font-size:.95rem;font-weight:600;margin-bottom:18px;display:flex;
+  align-items:center;gap:10px;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:1px;
+}
+.card-title .icon{font-size:1.4rem;filter:drop-shadow(0 0 10px var(--accent))}
+.clock-time{
+  font-size:3.5rem;font-weight:800;font-variant-numeric:tabular-nums;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;letter-spacing:2px;line-height:1;
+}
+.clock-date{font-size:.95rem;color:var(--text-dim);margin-top:10px}
+.hijri-date{font-size:.9rem;color:var(--gold);margin-top:6px;font-family:'Noto Nastaliq Urdu',serif}
+.prayer-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;border-bottom:1px solid var(--glass-border);transition:all .3s;
+}
+.prayer-row:last-child{border-bottom:none}
+.prayer-row:hover{padding-right:10px;color:var(--accent)}
+.prayer-name{font-family:'Noto Nastaliq Urdu',serif;font-size:1rem}
+.prayer-time{font-variant-numeric:tabular-nums;font-weight:600}
+.rate-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--glass-border)}
+.rate-row:last-child{border-bottom:none}
+.rate-label{color:var(--text-dim);font-size:.9rem}
+.rate-value{font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums}
+.weather-temp{
+  font-size:3rem;font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;line-height:1;
+}
+.weather-desc{color:var(--text-dim);margin-top:8px}
+.compass{
+  width:140px;height:140px;border-radius:50%;border:2px solid var(--glass-border);
+  margin:0 auto;position:relative;background:var(--glass);
+}
+.compass-needle{
+  position:absolute;top:50%;left:50%;width:4px;height:55px;
+  background:linear-gradient(180deg,var(--accent),var(--accent-2));
+  transform-origin:bottom center;transform:translate(-50%,-100%) rotate(0deg);
+  border-radius:2px;transition:transform .5s ease;
+}
+.compass-label{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:.75rem;color:var(--text-dim);font-family:'Noto Nastaliq Urdu',serif;
+}
+.voice-card{grid-column:1/-1;text-align:center;padding:36px 24px}
+.voice-btn{
+  width:100px;height:100px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  border:none;color:#fff;font-size:2.4rem;cursor:pointer;
+  box-shadow:0 0 40px rgba(0,212,255,.5);
+  transition:all .3s ease;position:relative;
+}
+.voice-btn:hover{transform:scale(1.1);box-shadow:0 0 60px rgba(0,212,255,.8)}
+.voice-btn.listening{animation:pulse 1.5s infinite}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(0,212,255,.7)}
+  70%{box-shadow:0 0 0 30px rgba(0,212,255,0)}
+  100%{box-shadow:0 0 0 0 rgba(0,212,255,0)}
+}
+.voice-hint{color:var(--text-dim);margin-top:16px;font-size:.9rem}
+.voice-result{
+  margin-top:16px;padding:14px;background:var(--glass);border-radius:12px;
+  border:1px solid var(--glass-border);font-family:'Noto Nastaliq Urdu',serif;
+  min-height:20px;display:none;
+}
+.voice-result.show{display:block;animation:slideUp .4s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.skeleton{
+  background:linear-gradient(90deg,var(--glass) 25%,rgba(255,255,255,.15) 50%,var(--glass) 75%);
+  background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;height:18px;margin-bottom:8px;
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.zakat-input{
+  width:100%;padding:12px 14px;background:var(--glass);
+  border:1px solid var(--glass-border);border-radius:10px;
+  color:var(--text);font-size:1rem;font-family:inherit;margin-bottom:10px;outline:none;
+}
+.zakat-input:focus{border-color:var(--accent)}
+.zakat-input::placeholder{color:var(--text-dim)}
+.btn-primary{
+  width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  border:none;border-radius:12px;color:#fff;font-size:1rem;font-weight:600;
+  cursor:pointer;transition:all .3s;font-family:inherit;margin-top:6px;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,255,.4)}
+.zakat-result{
+  margin-top:14px;padding:14px;background:var(--glass);border-radius:12px;
+  border:1px solid var(--glass-border);font-family:'Noto Nastaliq Urdu',serif;
+  display:none;
+}
+.zakat-result.show{display:block;animation:slideUp .4s ease}
+.ramzan-row{
+  display:flex;justify-content:space-between;padding:12px 0;
+  font-family:'Noto Nastaliq Urdu',serif;border-bottom:1px solid var(--glass-border);
+}
+.ramzan-row:last-child{border-bottom:none}
+.article-section{margin-top:40px}
+.section-heading{
+  font-size:1.4rem;font-weight:700;margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.article-card{
+  background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;
+  margin-bottom:14px;overflow:hidden;backdrop-filter:blur(20px);
+}
+.article-header{
+  padding:18px 22px;cursor:pointer;display:flex;justify-content:space-between;
+  align-items:center;transition:all .3s;user-select:none;
+}
+.article-header:hover{background:rgba(255,255,255,.04)}
+.article-title{
+  font-family:'Noto Nastaliq Urdu',serif;font-size:1.1rem;font-weight:600;
+  display:flex;align-items:center;gap:12px;
+}
+.article-num{
+  display:inline-flex;width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#fff;align-items:center;justify-content:center;
+  font-size:.85rem;font-weight:700;flex-shrink:0;
+}
+.article-arrow{transition:transform .3s;color:var(--text-dim);font-size:1.2rem}
+.article-card.open .article-arrow{transform:rotate(180deg)}
+.article-body{
+  max-height:0;overflow:hidden;transition:max-height .5s ease;
+  font-family:'Noto Nastaliq Urdu',serif;line-height:2.1;font-size:1rem;
+}
+.article-card.open .article-body{max-height:2000px}
+.article-content{padding:0 22px 22px;color:var(--text-dim)}
+.article-content p{margin-bottom:12px}
+.article-content strong{color:var(--text)}
+.article-content code{
+  background:rgba(0,212,255,.1);padding:2px 8px;border-radius:6px;
+  color:var(--accent);font-family:'Inter',monospace;font-size:.9rem;direction:ltr;display:inline-block;
+}
+.article-content ul{margin:10px 20px 14px;padding-right:10px}
+.article-content li{margin-bottom:8px}
+footer{text-align:center;padding:40px 0 20px;color:var(--text-dim);font-size:.9rem}
+@media(max-width:600px){
+  .clock-time{font-size:2.5rem}
+  .card{padding:18px}
+  .voice-btn{width:80px;height:80px;font-size:2rem}
+  .logo{font-size:1.3rem}
+  .city-select{min-width:auto;flex:1}
+}
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<div class="container">
+
+  <header>
+    <div class="logo">⚡ AURA TimeVerse</div>
+    <div class="header-actions">
+      <select class="city-select" id="citySelect" onchange="onCityChange()">
+        <option value="Karachi">کراچی</option>
+        <option value="Lahore">لاہور</option>
+        <option value="Islamabad">اسلام آباد</option>
+        <option value="Rawalpindi">راولپنڈی</option>
+        <option value="Faisalabad">فیصل آباد</option>
+        <option value="Multan">ملتان</option>
+        <option value="Peshawar">پشاور</option>
+        <option value="Quetta">کوئٹہ</option>
+        <option value="Hyderabad">حیدرآباد</option>
+        <option value="Gujranwala">گوجرانوالہ</option>
+      </select>
+      <button class="icon-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🕐</span> لائیو گھڑی</div>
+      <div class="clock-time" id="clock">--:--:--</div>
+      <div class="clock-date" id="date">لوڈ ہو رہا ہے...</div>
+      <div class="hijri-date" id="hijri">🌙 لوڈ ہو رہا ہے...</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🕌</span> نماز کے اوقات</div>
+      <div id="prayerTimes">
+        <div class="skeleton"></div><div class="skeleton"></div>
+        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🧭</span> قبلہ کی سمت</div>
+      <div class="compass">
+        <div class="compass-needle" id="qiblaNeedle"></div>
+        <div class="compass-label">قبلہ</div>
+      </div>
+      <div style="text-align:center;margin-top:14px;color:var(--text-dim);font-size:.9rem">
+        <span id="qiblaDeg">--</span>° — <span id="qiblaCity">کراچی</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🥇</span> سونے چاندی کے دام</div>
+      <div id="goldRates">
+        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+      </div>
+      <div style="font-size:.75rem;color:var(--text-dim);margin-top:10px;text-align:center">
+        آخری اپڈیٹ: <span id="goldUpdate">--</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🌤️</span> آج کا موسم</div>
+      <div id="weather">
+        <div class="skeleton" style="height:60px"></div>
+        <div class="skeleton"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🌙</span> رمضان اسپیشل</div>
+      <div id="ramzan">
+        <div class="skeleton"></div><div class="skeleton"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">💰</span> زکوٰۃ کیلکولیٹر</div>
+      <input class="zakat-input" id="zGold" type="number" placeholder="سونا (تولہ)" inputmode="numeric">
+      <input class="zakat-input" id="zSilver" type="number" placeholder="چاندی (تولہ)" inputmode="numeric">
+      <input class="zakat-input" id="zCash" type="number" placeholder="نقدی (روپے)" inputmode="numeric">
+      <input class="zakat-input" id="zBusiness" type="number" placeholder="کاروبار (روپے)" inputmode="numeric">
+      <input class="zakat-input" id="zProperty" type="number" placeholder="جائیداد (روپے)" inputmode="numeric">
+      <button class="btn-primary" onclick="calculateZakat()">زکوٰۃ حساب کریں</button>
+      <div class="zakat-result" id="zakatResult"></div>
+    </div>
+
+    <div class="card voice-card">
+      <div class="card-title" style="justify-content:center"><span class="icon">🎤</span> اردو وائس اسسٹنٹ</div>
+      <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤</button>
+      <div class="voice-hint">بولیں: "کراچی میں فجر کب ہے؟" یا "آج کیا تاریخ ہے؟"</div>
+      <div class="voice-result" id="voiceResult"></div>
+    </div>
+
+  </div>
+
+  <div class="article-section">
+    <h2 class="section-heading">📖 رہنمائی — ہر فیچر کیسے استعمال کریں</h2>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">1</span> لائیو گھڑی</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>یہ گھڑی <strong>ہر سیکنڈ خود کو اپڈیٹ</strong> کرتی ہے۔ آپ کو کچھ کرنے کی ضرورت نہیں۔</p>
+        <ul>
+          <li><code>setInterval</code> ہر 1000ms بعد گھڑی ریفریش کرتا ہے</li>
+          <li>اردو میں تاریخ — دن، مہینہ، سال</li>
+          <li>موبائل اور ڈیسک ٹاپ دونوں پر یکساں</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">2</span> ہجری تاریخ</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>اسلامی کیلنڈر میں آج کی تاریخ۔ <strong>Aladhan API</strong> سے، ہر روز خود اپڈیٹ۔</p>
+        <ul>
+          <li>API 100% مفت، کوئی key نہیں</li>
+          <li>مہینوں کے نام اردو میں</li>
+          <li>روزانہ خود بخود تبدیل</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">3</span> نماز کے اوقات</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>شہر منتخب کریں، نماز کے اوقات فوراً آ جائیں گے۔</p>
+        <ul>
+          <li>پاکستان کے 10 بڑے شہر</li>
+          <li>کراچی کا طریقہ (University of Islamic Sciences)</li>
+          <li>ہر گھنٹے بعد خودکار اپڈیٹ</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">4</span> قبلہ کی سمت</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>کمپاس آپ کے شہر کے لحاظ سے قبلہ کی سمت دکھاتا ہے۔</p>
+        <ul>
+          <li>کراچی: 267°، لاہور: 260°، اسلام آباد: 255°</li>
+          <li>ہموار اینیمیشن</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">5</span> سونے چاندی کے دام</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>ہر 15 منٹ بعد خودکار اپڈیٹ۔ 24K، 22K اور چاندی فی تولہ۔</p>
+        <ul>
+          <li>بین الاقوامی قیمتیں (metals.live)</li>
+          <li>API بند ہو تو fallback rates</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">6</span> اردو وائس ان پٹ</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>مائیک پر دبائیں اور اردو میں بولیں۔</p>
+        <ul>
+          <li><code>ur-PK</code> — Urdu Pakistan</li>
+          <li>Chrome اور Edge میں بہترین</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">7</span> اردو وائس آؤٹ پٹ</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>جواب اردو آواز میں سنائیں گے۔</p>
+        <ul>
+          <li><code>speechSynthesis</code> براؤزر کا built-in</li>
+          <li>آواز کی رفتار 0.9 — سمجھنے میں آسان</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">8</span> ڈارک / لائٹ موڈ</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>چاند یا سورج بٹن سے تھیم بدلیں۔</p>
+        <ul>
+          <li><code>localStorage</code> پسند یاد رکھتا ہے</li>
+          <li>ڈارک موڈ رات کو آرام دہ</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">9</span> شیشے جیسا ڈیزائن</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>ہر کارڈ شیشے کی طرح — ماؤس لانے پر اوپر اٹھتا ہے۔</p>
+        <ul>
+          <li><code>backdrop-filter: blur(20px)</code></li>
+          <li>جدید ڈیزائن کا رجحان</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">10</span> چلتی روشنیاں</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>صفحے کے پیچھے تین رنگین روشنیاں آہستہ حرکت کرتی ہیں۔</p>
+        <ul>
+          <li><code>blur(80px)</code> روشنی نرم</li>
+          <li>20 سیکنڈ کا چکر</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">11</span> لوڈنگ اسکیلیٹن</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>جب تک ڈیٹا آ رہا ہو، خاکستری لکیریں حرکت کرتی ہیں۔</p>
+        <ul>
+          <li>shimmer اثر — روشنی کی لہر</li>
+          <li>Facebook، YouTube بھی استعمال کرتی ہیں</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">12</span> آف لائن سپورٹ</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>پہلی بار کھولنے پر فائلیں محفوظ ہو جائیں گی — internet نہ ہو تو بھی چلے گی۔</p>
+        <ul>
+          <li>Service Worker background میں چلتا ہے</li>
+          <li>Data بچتا ہے</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">13</span> موبائل دوست ڈیزائن</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>موبائل پر ساری چیزیں چھوٹی اور ایک کے نیچے ایک۔</p>
+        <ul>
+          <li><code>@media (max-width:600px)</code></li>
+          <li>ایک کالم — آسانی سے سکرول</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">14</span> تھیم محفوظ</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>جو تھیم چنیں گے وہ براؤزر یاد رکھے گا۔</p>
+        <ul>
+          <li><code>localStorage</code> آپ کے کمپیوٹر پر محفوظ</li>
+          <li>کسی سرور پر نہیں جاتا</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">15</span> موسم</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>درجہ حرارت اور ہوا کی رفتار — Open-Meteo API سے، مفت۔</p>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">16</span> رمضان اسپیشل</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>رمضان میں سحری اور افطار کے اوقات — خود بخود۔</p>
+        <ul>
+          <li>سحری = فجر سے 10 منٹ پہلے</li>
+          <li>افطار = مغرب کا وقت</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="article-card" onclick="toggleArticle(this)">
+      <div class="article-header">
+        <div class="article-title"><span class="article-num">17</span> زکوٰۃ کیلکولیٹر</div>
+        <span class="article-arrow">▼</span>
+      </div>
+      <div class="article-body"><div class="article-content">
+        <p>اپنے مال کی قیمت لکھیں — زکوٰۃ خود نکلے گی۔</p>
+        <ul>
+          <li>نصاب = 7.5 تولہ سونے کے برابر</li>
+          <li>شرح 2.5%</li>
+        </ul>
+      </div></div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 AURA TimeVerse — 100% Original • 17 Features • Free Forever</p>
+  </footer>
+
+</div>
+
+<script>
+function toggleTheme(){
+  const html=document.documentElement;
+  const next=html.getAttribute('data-theme')==='light'?'dark':'light';
+  html.setAttribute('data-theme',next);
+  localStorage.setItem('theme',next);
+  document.getElementById('themeBtn').textContent=next==='light'?'☀️':'🌙';
+}
+(function(){
+  const saved=localStorage.getItem('theme')||'dark';
+  document.documentElement.setAttribute('data-theme',saved);
+  window.addEventListener('DOMContentLoaded',()=>{
+    document.getElementById('themeBtn').textContent=saved==='light'?'☀️':'🌙';
+  });
+})();
+
+function toggleArticle(el){el.classList.toggle('open');}
+
+function updateClock(){
+  const now=new Date();
+  const h=String(now.getHours()).padStart(2,'0');
+  const m=String(now.getMinutes()).padStart(2,'0');
+  const s=String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').textContent=`${h}:${m}:${s}`;
+  document.getElementById('date').textContent=
+    now.toLocaleDateString('ur-PK',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+}
+setInterval(updateClock,1000);updateClock();
+
+async function loadHijri(){
+  try{
+    const t=new Date();
+    const dd=String(t.getDate()).padStart(2,'0');
+    const mm=String(t.getMonth()+1).padStart(2,'0');
+    const yy=t.getFullYear();
+    const r=await fetch(`https://api.aladhan.com/v1/gToH/${dd}-${mm}-${yy}`);
+    const d=await r.json();
+    const h=d.data.hijri;
+    const months=['محرم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول',
+      'جمادی الثانی','رجب','شعبان','رمضان','شوال','ذی القعدہ','ذی الحجہ'];
+    document.getElementById('hijri').textContent=
+      `🌙 ${h.day} ${months[h.month.number-1]} ${h.year} ھ`;
+  }catch(e){
+    document.getElementById('hijri').textContent='🌙 ہجری تاریخ دستیاب نہیں';
+  }
+}
+loadHijri();setInterval(loadHijri,3600000);
+
+async function loadPrayer(){
+  const city=document.getElementById('citySelect').value;
+  const c=document.getElementById('prayerTimes');
+  c.innerHTML='<div class="skeleton"></div>'.repeat(5);
+  try{
+    const r=await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=Pakistan&method=1`);
+    const d=await r.json();
+    const t=d.data.timings;
+    const P=[{n:'فجر',k:'Fajr'},{n:'ظہر',k:'Dhuhr'},{n:'عصر',k:'Asr'},
+             {n:'مغرب',k:'Maghrib'},{n:'عشاء',k:'Isha'}];
+    c.innerHTML=P.map(p=>
+      `<div class="prayer-row"><span class="prayer-name">${p.n}</span><span class="prayer-time">${t[p.k]}</span></div>`
+    ).join('');
+  }catch(e){c.innerHTML='<div style="color:#ff4757">اوقات دستیاب نہیں</div>';}
+}
+
+const QIBLA={'Karachi':267,'Lahore':260,'Islamabad':255,'Rawalpindi':255,
+  'Faisalabad':261,'Multan':260,'Peshawar':254,'Quetta':260,
+  'Hyderabad':267,'Gujranwala':259};
+function updateQibla(city){
+  const a=QIBLA[city]||260;
+  document.getElementById('qiblaNeedle').style.transform=
+    `translate(-50%,-100%) rotate(${a}deg)`;
+  document.getElementById('qiblaDeg').textContent=a;
+  document.getElementById('qiblaCity').textContent=city;
+}
+
+async function loadGold(){
+  const c=document.getElementById('goldRates');
+  let g24=245000,g22=224500,sil=2950;
+  try{
+    const r=await fetch('https://api.metals.live/v1/spot');
+    if(r.ok){
+      const d=await r.json();
+      if(d&&d[0]&&d[0].gold){
+        g24=Math.round(d[0].gold*31.1035*280);
+        g22=Math.round(g24*0.916);
+      }
+      if(d&&d[0]&&d[0].silver){
+        sil=Math.round(d[0].silver*31.1035*280);
+      }
+    }
+  }catch(e){}
+  c.innerHTML=`
+    <div class="rate-row"><span class="rate-label">سونے 24K (فی تولہ)</span><span class="rate-value">${g24.toLocaleString()} روپے</span></div>
+    <div class="rate-row"><span class="rate-label">سونے 22K (فی تولہ)</span><span class="rate-value">${g22.toLocaleString()} روپے</span></div>
+    <div class="rate-row"><span class="rate-label">چاندی (فی تولہ)</span><span class="rate-value">${sil.toLocaleString()} روپے</span></div>`;
+  document.getElementById('goldUpdate').textContent=new Date().toLocaleTimeString('ur-PK');
+}
+
+const COORDS={'Karachi':[24.86,67.01],'Lahore':[31.55,74.34],
+  'Islamabad':[33.68,73.04],'Rawalpindi':[33.60,73.04],
+  'Faisalabad':[31.42,73.08],'Multan':[30.19,71.47],
+  'Peshawar':[34.01,71.58],'Quetta':[30.18,66.99],
+  'Hyderabad':[25.39,68.37],'Gujranwala':[32.19,74.19]};
+async function loadWeather(){
+  const city=document.getElementById('citySelect').value;
+  const [lat,lon]=COORDS[city]||[24.86,67.01];
+  try{
+    const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+    const d=await r.json();
+    const w=d.current_weather;
+    document.getElementById('weather').innerHTML=`
+      <div class="weather-temp">${Math.round(w.temperature)}°C</div>
+      <div class="weather-desc">ہوا: ${w.windspeed} کلومیٹر/گھنٹہ</div>`;
+  }catch(e){
+    document.getElementById('weather').innerHTML='<div style="color:#ff4757">موسم دستیاب نہیں</div>';
+  }
+}
+
+function subMin(t,min){
+  const [h,m]=t.split(':').map(Number);
+  const total=h*60+m-min;
+  return `${String(Math.floor(total/60)).padStart(2,'0')}:${String(total%60).padStart(2,'0')}`;
+}
+async function loadRamzan(){
+  const city=document.getElementById('citySelect').value;
+  try{
+    const r=await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=Pakistan&method=1`);
+    const d=await r.json();
+    const t=d.data.timings;
+    document.getElementById('ramzan').innerHTML=`
+      <div class="ramzan-row"><span>🌅 سحری</span><span>${subMin(t.Fajr,10)}</span></div>
+      <div class="ramzan-row"><span>🌇 افطار</span><span>${t.Maghrib}</span></div>`;
+  }catch(e){
+    document.getElementById('ramzan').innerHTML='<div style="color:#ff4757">اوقات دستیاب نہیں</div>';
+  }
+}
+
+function calculateZakat(){
+  const gold=parseFloat(document.getElementById('zGold').value)||0;
+  const silver=parseFloat(document.getElementById('zSilver').value)||0;
+  const cash=parseFloat(document.getElementById('zCash').value)||0;
+  const bus=parseFloat(document.getElementById('zBusiness').value)||0;
+  const prop=parseFloat(document.getElementById('zProperty').value)||0;
+  const gp=245000,sp=2950;
+  const nisab=7.5*gp;
+  const total=(gold*gp)+(silver*sp)+cash+bus+prop;
+  const el=document.getElementById('zakatResult');
+  if(total<nisab){
+    el.innerHTML=`آپ پر زکوٰۃ فرض نہیں۔<br>نصاب: ${nisab.toLocaleString()} روپے<br>آپ کا مال: ${total.toLocaleString()} روپے`;
+  }else{
+    const z=total*0.025;
+    el.innerHTML=`کل مال: ${total.toLocaleString()} روپے<br>زکوٰۃ (2.5%): <strong style="color:#FFD700">${z.toLocaleString()} روپے</strong>`;
+  }
+  el.classList.add('show');
+}
+
+let listening=false,recog;
+function toggleVoice(){
+  const btn=document.getElementById('voiceBtn');
+  if(listening){recog.stop();return;}
+  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){
+    showVoice('معذرت، براؤزر وائس سپورٹ نہیں کرتا۔ Chrome استعمال کریں۔');return;
+  }
+  recog=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
+  recog.lang='ur-PK';recog.continuous=false;recog.interimResults=false;
+  recog.onstart=()=>{listening=true;btn.classList.add('listening');btn.textContent='🔴';showVoice('سن رہا ہوں...');};
+  recog.onresult=(e)=>{const cmd=e.results[0][0].transcript;showVoice(`آپ نے کہا: "${cmd}"`);processCmd(cmd);};
+  recog.onerror=()=>{listening=false;btn.classList.remove('listening');btn.textContent='🎤';showVoice('سمجھ نہیں آیا، دوبارہ کوشش کریں');};
+  recog.onend=()=>{listening=false;btn.classList.remove('listening');btn.textContent='🎤';};
+  recog.start();
+}
+function showVoice(t){
+  const el=document.getElementById('voiceResult');
+  el.textContent=t;el.classList.add('show');
+}
+function processCmd(cmd){
+  let res='';
+  if(cmd.includes('وقت')||cmd.includes('ٹائم')){
+    const n=new Date();
+    res=`ابھی ${n.getHours()} بج کر ${n.getMinutes()} منٹ ہوئے ہیں`;
+  }else if(cmd.includes('تاریخ')){
+    res=new Date().toLocaleDateString('ur-PK',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  }else if(cmd.includes('فجر')){res=`فجر کا وقت ${getTime(1)} ہے`;}
+  else if(cmd.includes('ظہر')){res=`ظہر کا وقت ${getTime(2)} ہے`;}
+  else if(cmd.includes('عصر')){res=`عصر کا وقت ${getTime(3)} ہے`;}
+  else if(cmd.includes('مغرب')){res=`مغرب کا وقت ${getTime(4)} ہے`;}
+  else if(cmd.includes('عشاء')||cmd.includes('عشا')){res=`عشاء کا وقت ${getTime(5)} ہے`;}
+  else if(cmd.includes('سونے')||cmd.includes('سونے کے دام')){
+    const el=document.querySelector('.rate-value');
+    res=el?`سونے کے دام ${el.textContent} ہیں`:'دام دستیاب نہیں';
+  }else if(cmd.includes('قبلہ')){
+    res=`قبلہ ${document.getElementById('qiblaDeg').textContent} ڈگری پر ہے`;
+  }else if(cmd.includes('موسم')||cmd.includes('درجہ حرارت')){
+    const el=document.querySelector('.weather-temp');
+    res=el?`آج کا درجہ حرارت ${el.textContent} ہے`:'موسم دستیاب نہیں';
+  }else{
+    res='معذرت، سمجھ نہیں سکا۔ وقت، تاریخ، نماز، سونے، قبلہ یا موسم کے بارے میں پوچھیں۔';
+  }
+  showVoice(res);speak(res);
+}
+function getTime(n){
+  const el=document.querySelectorAll('.prayer-time')[n-1];
+  return el?el.textContent:'دستیاب نہیں';
+}
+function speak(t){
+  if(!('speechSynthesis' in window))return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(t);
+  u.lang='ur-PK';u.rate=0.9;u.pitch=1;
+  window.speechSynthesis.speak(u);
+}
+
+function onCityChange(){
+  loadPrayer();loadWeather();loadRamzan();
+  updateQibla(document.getElementById('citySelect').value);
+}
+
+loadPrayer();
+loadWeather();
+loadRamzan();
+loadGold();
+updateQibla('Karachi');
+setInterval(loadPrayer,3600000);
+setInterval(loadWeather,1800000);
+setInterval(loadRamzan,3600000);
+setInterval(loadGold,900000);
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+
+console.log('⚡ AURA TimeVerse loaded — 17 Features');
+</script>
+
+</body>
+</html>
