@@ -1,5 +1,13 @@
 export default {
   async fetch(request, env) {
+    const cors = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    };
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { headers: cors });
+    }
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -9,7 +17,7 @@ export default {
       body: request.body
     });
     const out = new Response(res.body, res);
-    out.headers.set('Access-Control-Allow-Origin', '*');
+    Object.keys(cors).forEach(k => out.headers.set(k, cors[k]));
     return out;
   }
 };
