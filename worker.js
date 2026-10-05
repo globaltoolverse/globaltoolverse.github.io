@@ -10,7 +10,7 @@ export default {
     const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer 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 ",
+        "Authorization": "Bearer " + env.GROQ_KEY ",
         "Content-Type": "application/json"
       },
       body: request.body
