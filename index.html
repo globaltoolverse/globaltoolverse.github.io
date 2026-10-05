@@ -1157,29 +1157,129 @@ rec.onresult=(e)=>{document.getElementById('search').value=e.results[0][0].trans
 rec.start();
 }
 
-// ============ AI ============
-let mode='general';
-function openAI(){document.getElementById('aiPanel').classList.add('on');const f=document.querySelector('.ai-fab');if(f)f.style.display='none';setTimeout(()=>document.getElementById('aiInput').focus(),400)}
-function closeAI(){document.getElementById('aiPanel').classList.remove('on');const f=document.querySelector('.ai-fab');if(f)f.style.display='flex'}
-function setMode(m){mode=m;document.querySelectorAll('.ai-m').forEach(b=>b.classList.toggle('on',b.dataset.m===m));addAI('assistant',`Switched to <strong>${m}</strong> mode. Ask me anything! 🎯`)}
-function quickAsk(q){document.getElementById('aiInput').value=q;sendAI()}
-function addAI(role,text){const b=document.getElementById('aiBody');const c=document.getElementById('aiChips');if(c)c.style.display='none';const d=document.createElement('div');d.className='msg '+role;d.innerHTML=`<div class="av">${role==='user'?'👤':'✨'}</div><div class="bub">${text}</div>`;b.appendChild(d);b.scrollTop=b.scrollHeight}
-function showTyping(){const b=document.getElementById('aiBody');const t=document.createElement('div');t.className='msg';t.id='typ';t.innerHTML=`<div class="av">✨</div><div class="typing"><span></span><span></span><span></span></div>`;b.appendChild(t);b.scrollTop=b.scrollHeight}
-function hideTyping(){const t=document.getElementById('typ');if(t)t.remove()}
-async function sendAI(){const i=document.getElementById('aiInput');const m=i.value.trim();if(!m)return;i.value='';i.style.height='auto';addAI('user',m);showTyping();await new Promise(r=>setTimeout(r,700));hideTyping();addAI('assistant',getAI(m))}
-function getAI(q){
-const t=q.toLowerCase();
-if(t.includes('zakat')||t.includes('زکا'))return`<strong>🕌 Zakat Guide</strong><br><br>Zakat is 2.5% of savings above Nisab.<br><br><strong>Nisab:</strong> 87.48g gold OR 612.36g silver<br><br>👉 Use our <a onclick="closeAI();openTool('zakat','Zakat Calculator','🕌')">Zakat Calculator</a>`;
-if(t.includes('prayer')||t.includes('namaz')||t.includes('نماز'))return`<strong>🕐 Prayer Times</strong><br><br>👉 Open <a onclick="closeAI();openTool('prayer','Prayer Times','🕐')">Prayer Times tool</a>!`;
-if(t.includes('bmi'))return`<strong>❤️ BMI Guide</strong><br><br>BMI = weight(kg) ÷ height(m)²<br><br>👉 Use <a onclick="closeAI();openTool('bmi','BMI Calculator','❤️')">BMI Calculator</a>`;
-if(t.includes('tax'))return`<strong>💰 Tax Help</strong><br><br>We have US, UK, India, Pakistan, Canada, Australia tax calculators!<br><br>👉 Try <a onclick="closeAI();openTool('tax_us','US Tax','🇺🇸')">Tax Tools</a>`;
-if(t.includes('resume')||t.includes('cv'))return`<strong>📝 Resume Help</strong><br><br>👉 Use <a onclick="closeAI();openTool('resume','AI Resume','📝')">AI Resume Builder</a>`;
-if(t.includes('kids')||t.includes('bacchay'))return`<strong>🧒 Kids Tools</strong><br><br>We have ABC, Numbers, Shapes, Colors, Stories, Games & more for kids!<br><br>👉 Click "Kids" in age categories!`;
-if(t.includes('senior')||t.includes('buzurg'))return`<strong>🧓 Senior Tools</strong><br><br>Health, Memory Games, Medicine Reminders, Prayer & more for seniors!<br><br>👉 Click "Seniors" in age categories!`;
-if(t.includes('salam')||t.includes('سلام'))return`Wa alaikum assalam! 🌙<br><br>Kaise madad kar sakta hoon? Ask me about <strong>Zakat, Health, Career, Tax</strong>! ✨`;
-if(t.includes('hello')||t.includes('hi')||t.includes('namaste'))return`Hello! 👋 Welcome to AURA Global 2.0!<br><br>I can help with:<br>💰 Finance<br>❤️ Health<br>💼 Career<br>📚 Study<br>✈️ Travel<br>🕌 Islamic<br>🧒 Kids<br>🧓 Seniors<br><br>What do you need?`;
-return`<strong>Great question!</strong> 🤔<br><br>Try our <strong>300+ tools</strong> or ask me something like:<br>🕌 "Zakat kaise calculate karein?"<br>💰 "US tax rates"<br>❤️ "BMI kaise nikalein?"<br>📝 "Resume kaise banayein?"<br>🧒 "Kids tools"<br>🧓 "Senior tools"`;
+// ============ AURA AI 2.0 - Multi-Language (15 Languages) ============
+const GROQ_KEY = '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';
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const aiHistory = [];
+
+// Language detection map
+function detectLang(text) {
+  if (/[\u0600-\u06FF]/.test(text)) {
+    if (/[کگچپژ]/.test(text)) return 'ur-PK';
+    return 'ar-SA';
+  }
+  if (/[\u0900-\u097F]/.test(text)) return 'hi-IN';
+  if (/[\u0980-\u09FF]/.test(text)) return 'bn-BD';
+  if (/[\u4E00-\u9FFF]/.test(text)) return 'zh-CN';
+  if (/[\u0400-\u04FF]/.test(text)) return 'ru-RU';
+  if (/[\u0590-\u05FF]/.test(text)) return 'he-IL';
+  if (/[çğışöüÇĞİŞÖÜ]/.test(text)) return 'tr-TR';
+  if (/[àâçéèêëîïôùûüÀÂÇÉÈÊËÎÏÔÙÛÜ]/.test(text)) return 'fr-FR';
+  if (/[äöüßÄÖÜ]/.test(text)) return 'de-DE';
+  if (/[áéíóúñ¿¡ÁÉÍÓÚÑ]/.test(text)) return 'es-ES';
+  if (/[ãõçáéíóúâêôàÃÕÇÁÉÍÓÚÂÊÔÀ]/.test(text)) return 'pt-BR';
+  if (/[\u0600-\u06FF]/.test(text)) return 'fa-IR';
+  return 'en-US';
 }
+
+function openAI() {
+  document.getElementById('aiPanel').classList.add('on');
+  const f = document.querySelector('.ai-fab');
+  if (f) f.style.display = 'none';
+}
+
+function closeAI() {
+  document.getElementById('aiPanel').classList.remove('on');
+  const f = document.querySelector('.ai-fab');
+  if (f) f.style.display = 'flex';
+}
+
+function setMode(m) { /* optional */ }
+
+async function sendAI() {
+  const input = document.getElementById('aiInput');
+  const q = input.value.trim();
+  if (!q) return;
+  
+  const chips = document.getElementById('aiChips');
+  if (chips) chips.style.display = 'none';
+  
+  const box = document.getElementById('aiBox');
+  const userDiv = document.createElement('div');
+  userDiv.style.cssText = 'text-align:right;margin:8px 0;padding:10px 14px;background:linear-gradient(135deg,#00d4ff,#7b2ff7);color:#fff;border-radius:14px 14px 4px 14px;float:right;clear:both;max-width:80%;';
+  userDiv.textContent = q;
+  box.appendChild(userDiv);
+  box.scrollTop = box.scrollHeight;
+  input.value = '';
+  
+  const loadDiv = document.createElement('div');
+  loadDiv.style.cssText = 'text-align:left;margin:8px 0;padding:10px 14px;background:rgba(255,255,255,0.1);color:#fff;border-radius:14px;float:left;clear:both;';
+  loadDiv.textContent = '...سوچ رہا ہوں';
+  box.appendChild(loadDiv);
+  box.scrollTop = box.scrollHeight;
+  
+  aiHistory.push({ role: 'user', content: q });
+  
+  try {
+    const r = await fetch(GROQ_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + GROQ_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+          { 
+            role: 'system', 
+            content: 'You are Aura AI 2.0 for Global ToolVerse. You support 15 languages: Arabic, English, Urdu, Hindi, Spanish, French, German, Chinese, Russian, Bengali, Turkish, Indonesian, Malay, Persian, Portuguese. ALWAYS reply in the SAME language the user writes in. Be helpful, accurate and concise.' 
+          },
+          ...aiHistory
+        ],
+        temperature: 0.7,
+        max_tokens: 500
+      })
+    });
+    const d = await r.json();
+    const reply = d.choices[0].message.content;
+    
+    box.removeChild(loadDiv);
+    const botDiv = document.createElement('div');
+    botDiv.style.cssText = 'text-align:left;margin:8px 0;padding:10px 14px;background:rgba(255,255,255,0.1);color:#fff;border-radius:14px 14px 14px 4px;float:left;clear:both;max-width:80%;';
+    botDiv.textContent = reply;
+    box.appendChild(botDiv);
+    box.scrollTop = box.scrollHeight;
+    aiHistory.push({ role: 'assistant', content: reply });
+    
+    // Auto-detect language and speak
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const langCode = detectLang(reply);
+      const u = new SpeechSynthesisUtterance(reply);
+      u.lang = langCode;
+      u.rate = 0.9;
+      u.pitch = 1;
+      // Try to find matching voice
+      const voices = window.speechSynthesis.getVoices();
+      const matchedVoice = voices.find(v => v.lang === langCode) || 
+                           voices.find(v => v.lang.startsWith(langCode.split('-')[0]));
+      if (matchedVoice) u.voice = matchedVoice;
+      window.speechSynthesis.speak(u);
+    }
+  } catch(e) {
+    box.removeChild(loadDiv);
+    const errDiv = document.createElement('div');
+    errDiv.style.cssText = 'text-align:left;margin:8px 0;padding:10px 14px;background:rgba(255,71,87,0.2);color:#fff;border-radius:14px;';
+    errDiv.textContent = 'معذرت، مسئلہ ہو گیا۔ دوبارہ کوشش کریں۔';
+    box.appendChild(errDiv);
+  }
+}
+
+// Preload voices
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+}
+
 
 // ============ PWA INSTALL ============
 let deferredPrompt;
