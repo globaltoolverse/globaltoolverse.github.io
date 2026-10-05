@@ -1324,7 +1324,13 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAI()});
   50% { box-shadow: 0 6px 40px rgba(0,212,255,0.9); }
   100% { box-shadow: 0 6px 24px rgba(0,212,255,0.5); }
 }
-  
+
+#aiPanel.on { display: flex !important; }
+.ai-fab { transition: all 0.3s ease; }
+.ai-fab:hover { transform: scale(1.1); }
+.ai-fab:active { transform: scale(0.95); }
+#aiBox::-webkit-scrollbar { width: 6px; }
+#aiBox::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); border-radius: 3px; }
 </style>
 <!-- ============ AURA AI PANEL ============ -->
 <button class="ai-fab" onclick="openAI()" style="position:fixed;bottom:90px;right:20px;z-index:9998;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#00d4ff,#7b2ff7);color:#fff;border:none;font-size:26px;cursor:pointer;box-shadow:0 6px 24px rgba(0,212,255,0.5);">🤖</button>
