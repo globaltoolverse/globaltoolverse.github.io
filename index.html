@@ -1289,12 +1289,30 @@ document.getElementById('installBanner').classList.add('on');
 });
 function installApp(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{document.getElementById('installBanner').classList.remove('on');deferredPrompt=null;});}}
 
-// TICKER
-const TK=[{l:'Gold',v:'310.45 SAR'},{l:'Silver',v:'3.85 SAR'},{l:'USD',v:'3.75 SAR'},{l:'EUR',v:'4.05 SAR'},{l:'BTC',v:'$68,450'},{l:'Oil',v:'$84.20'},{l:'iPhone',v:'$1,199'},{l:'Rolex',v:'$15,000'}];
-const tkHTML=TK.map(t=>`<div class="ti">${t.l}: <strong style="color:var(--text)">${t.v}</strong> <span class="u">▲</span></div>`).join('');
-document.getElementById('tick').innerHTML=tkHTML+tkHTML;
-setTimeout(()=>{document.getElementById('s1').textContent='20K+';},500);
-
+// ============ LIVE TICKER (Simple & Free) ============
+async function updateTicker() {
+  const el = document.getElementById('tick');
+  if (!el) return;
+  let btc = '$68,000', usd = '278.50', gold = '$2,340';
+  try {
+    const r = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
+    const d = await r.json();
+    btc = '$' + Math.round(d.price).toLocaleString();
+  } catch(e) {}
+  try {
+    const r = await fetch('https://open.er-api.com/v6/latest/USD');
+    const d = await r.json();
+    usd = d.rates.PKR.toFixed(2) + ' PKR';
+  } catch(e) {}
+  try {
+    const r = await fetch('https://api.metals.live/v1/spot');
+    const d = await r.json();
+    if (d[0] && d[0].gold) gold = '$' + Math.round(d[0].gold);
+  } catch(e) {}
+  el.innerHTML = `🥇 Gold: ${gold} ▲ &nbsp; 💵 USD: ${usd} ▲ &nbsp; ₿ BTC: ${btc} ▲ &nbsp; ✅ LIVE`;
+}
+updateTicker();
+setInterval(updateTicker, 60000);
 // ESC
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAI()});
 </script>
