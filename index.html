@@ -1158,8 +1158,8 @@ rec.start();
 }
 
 // ============ AURA AI 2.0 - Multi-Language (15 Languages) ============
-const GROQ_KEY = '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';
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+
+const GROQ_URL = 'https://auraai.zeshishack.workers.dev';
 const aiHistory = [];
 
 // Language detection map
@@ -1224,7 +1224,7 @@ async function sendAI() {
     const r = await fetch(GROQ_URL, {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer ' + GROQ_KEY,
+        
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
